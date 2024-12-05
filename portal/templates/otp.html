@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"/>
+    <title>Authentication</title>
+    <style>
+        .max-w-md {
+            max-width: 30rem !important;
+        }
+        .w-1\/2 {
+            width: 100% !important;
+        }
+        .otp-container input {
+            width: 2.5rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.25rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            margin: 0 0.2rem;
+        }
+        .otp-container input:focus {
+            border-color: #6366f1;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <section class="bg-gray-100 body-font relative">
+        <div class="container mx-auto flex flex-col items-center justify-center min-h-screen py-6">
+            <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+                <div class="justify-around mb-6" style="display: grid;justify-content: center;">
+                    <h2 class="text-gray-600 font-bold py-2 w-1/2 focus:outline-none">
+                        OTP Verification
+                    </h2>
+                </div>
+                <div id="login-form" class="form-section">
+                    <form method="POST">
+                        <input type="hidden" name="header_id" id="header_id"  value="{{header_id}}">
+                        <h2 class="text-gray-600 justify-center py-2 focus:outline-none" style="display: flex">
+                            Enter the OTP you received to
+                        </h2>
+                        <p class="text-gray-600 justify-center mb-4 font-bold focus:outline-none" style="display: flex">
+                            {{gmail}}
+                        </p>
+                           <!-- <img src="data:image/png;base64,{{ qr_code_data }}" alt="QR Code" class="w-64 h-64">-->
+
+                        <!-- Updated OTP input field -->
+                        <div class="otp-container mb-4 flex justify-center">
+                            <input type="text" maxlength="1" class="otp-input" oninput="moveToNextInput(this)">
+                            <input type="text" maxlength="1" class="otp-input" oninput="moveToNextInput(this)">
+                            <input type="text" maxlength="1" class="otp-input" oninput="moveToNextInput(this)">
+                            <input type="text" maxlength="1" class="otp-input" oninput="moveToNextInput(this)">
+                            <input type="text" maxlength="1" class="otp-input" oninput="moveToNextInput(this)">
+                            <input type="text" maxlength="1" class="otp-input" oninput="moveToNextInput(this)">
+                        </div>
+                        <input type="button" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700" id="register_btn2" value="Login" />
+                    </form>
+<!--                    <div class="text-center">-->
+<!--                        <button id="resend_otp" class="text-indigo-600 mt-4 hover:underline" onclick="resendOTP()">Resend OTP</button>-->
+<!--                        <p id="resend_message" class="text-green-500 mt-2" style="display: none;">OTP has been resent!</p>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/static/js/vendor/jquery-3.3.1.min.js"></script>
+  {#
+  <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  #}
+  <script src="/static/js/jquery-ui.min.js"></script>
+  <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+  <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js"></script>
+
+    <script>
+        // Function to move focus to the next input field
+        function moveToNextInput(input) {
+            if (input.value.length === 1) {
+                let nextInput = input.nextElementSibling;
+                while (nextInput && nextInput.tagName !== 'INPUT') {
+                    nextInput = nextInput.nextElementSibling;
+                }
+                if (nextInput) nextInput.focus();
+            }
+        }
+    </script>
+<script>
+        document.getElementById("register_btn2").addEventListener("click", Submit_function);
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"/>
+    <title>Problem Submission Form</title>
+    <style>
+        .py-24 {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+        .tracking-widest {
+            letter-spacing: .1em;
+            font-size: large;
+            padding-bottom: 1rem;
+        }
+        .lg\:w-1\/6 {
+            width: 100% !important;
+        }
+        @media (min-width: 768px) {
+            .md\:text-left {
+                text-align: CENTER !important;
+            }
+        }
+        @media (min-width: 768px) {
+            .md\:justify-start {
+                justify-content: center !important;
+            }
+        }
+        @media (min-width: 1024px) {
+            .lg\:ml-auto {
+                margin: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="text-gray-700 body-font border-b border-gray-200">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="/">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl">DSQuest</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="#explore" class="mr-5 hover:text-gray-900">Explore</a>
+                <a href="#practice" class="mr-5 hover:text-gray-900">Practice</a>
+                <a href="#upgrade" class="mr-5 hover:text-gray-900">Upgrade</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Form Section -->
+    <section class="bg-gray-100 body-font relative py-24">
+        <div class="container mx-auto flex flex-col items-center justify-center min-h-screen py-6">
+            <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-5 text-center">Add Problem</h2>
+                <form id="problemForm" method="POST">
+                    <!-- Title -->
+                    <div class="mb-4">
+                        <label for="title" class="block mb-2 text-sm font-medium text-gray-700">Title</label>
+                        <input type="text" id="title" name="title" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Problem Title">
+                    </div>
+
+                    <!-- Difficulty and Type (Two-column layout) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Difficulty Dropdown -->
+                        <div class="mb-4">
+                            <label for="difficulty" class="block mb-2 text-sm font-medium text-gray-700">Difficulty</label>
+                            <select id="difficulty" name="difficulty" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500">
+                                <option value="">Select difficulty</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+
+                        <!-- Type Dropdown -->
+                        <div class="mb-4">
+                            <label for="type" class="block mb-2 text-sm font-medium text-gray-700">Type</label>
+                            <select id="type" name="type" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500">
+                                <option value="">Select problem type</option>
+                                <option value="algorithm">Python</option>
+                                <option value="data_structure">SQL</option>
+                                <option value="math">Pandas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Example Input and Output (Two-column layout) -->
+                    <!--<div class="grid grid-cols-1 md:grid-cols-2 gap-4">-->
+                        <!-- Example Input -->
+                        <!--<div class="mb-4">
+                            <label for="example_input" class="block text-sm font-medium text-gray-700">Example Input</label>
+                            <input type="text" id="example_input" name="example_input" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Example Input">
+                        </div>-->
+
+                        <!-- Example Output -->
+                       <!-- <div class="mb-4">
+                            <label for="example_output" class="block text-sm font-medium text-gray-700">Example Output</label>
+                            <input type="text" id="example_output" name="example_output" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Example Output">
+                        </div>
+                    </div>-->
+
+                    <div class="mb-4">
+                        <label for="example_input" class="block mb-2 text-sm font-medium text-gray-700">Example Input</label>
+                        <textarea id="example_input" name="example_input" rows="2" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Example Input"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="example_output" class="block mb-2 text-sm font-medium text-gray-700">Example Output</label>
+                        <textarea id="example_output" name="example_output" rows="2" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Example Output"></textarea>
+                    </div>
+
+                    <!-- Full-width Fields for Description, Explanation, Expected Output, and Test Cases -->
+                    <div class="mb-4">
+                        <label for="description" class="block mb-2 text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" name="description" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Problem Description"></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="explanation" class="block mb-2 text-sm font-medium text-gray-700">Explanation</label>
+                        <textarea id="explanation" name="explanation" rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Explanation of the solution"></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="function_signature" class="block mb-2 text-sm font-medium text-gray-700">Function Signature</label>
+                        <textarea id="function_signature" name="function_signature" rows="2" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Function Signature"></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="expected_output" class="block mb-2 text-sm font-medium text-gray-700">Expected Output</label>
+                        <textarea id="expected_output" name="expected_output" rows="2" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Expected Output"></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="test_cases" class="block mb-2 text-sm font-medium text-gray-700">Test Cases</label>
+                        <textarea id="test_cases" name="test_cases" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Test Cases"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="mt-6">
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">Add Problem</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+     <footer class="text-gray-700 body-font">
+            <div class="container px-5 py-24 mx-auto">
+              <div class="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                  <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">Useful Links</h2>
+                  <nav class="list-none mb-10">
+                    <ul class="flex space-x-4 justify-center md:justify-start">
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Help Center</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Students</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Terms</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Privacy Policy</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-gray-200">
+              <div class="container px-5 py-8 flex flex-wrap mx-auto items-center">
+                <!-- <div class="flex md:flex-no-wrap flex-wrap justify-center md:justify-start">
+                  <input class="sm:w-64 w-40 bg-gray-100 rounded sm:mr-4 mr-2 border border-gray-400 focus:outline-none focus:border-indigo-500 text-base py-2 px-4" placeholder="Placeholder" type="text">
+                  <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
+                  <p class="text-gray-500 text-sm md:ml-6 md:mt-0 mt-2 sm:text-left text-center">Bitters chicharrones fanny pack
+                    <br class="lg:block hidden">waistcoat green juice
+                  </p>
+                </div> -->
+                <span class="inline-flex lg:ml-auto lg:mt-0 mt-6 w-full justify-center md:justify-start md:w-auto">
+                  <a class="text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                      <circle cx="4" cy="4" r="2" stroke="none"></circle>
+                    </svg>
+                  </a>
+                </span>
+              </div>
+            </div>
+            <!-- <div class="bg-gray-200">
+              <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
+                <p class="text-gray-500 text-sm text-center sm:text-left">© 2020 Tailwind Blocks —
+                  <a href="https://twitter.com/knyttneve" class="text-gray-600 ml-1" target="_blank" rel="noopener noreferrer">@knyttneve</a>
+                </p>
+                <span class="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">Enamel pin tousled raclette tacos irony</span>
+              </div>
+            </div> -->
+          </footer>
+</body>
+</html>

@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"/>
+    <title>Python Tutorial</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f7fafc;
+        }
+        /* Fixed Header Styling */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        /* Sidebar Styling */
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 60px; /* Adjusted for fixed header */
+            left: 0;
+            background-color: #f7fafc;
+            padding-top: 20px;
+            border-right: 1px solid #e2e8f0;
+        }
+      /*  .sidebar a {
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #4a5568; /* Gray-700 */
+           /* display: block;
+            transition: background 0.3s, color 0.3s;
+        }
+        .sidebar a:hover, .active-link {
+            /*background-color: #e2e8f0; /* Gray-200 */
+          /*  color: #2d3748; /* Gray-800 */
+       /* }*/
+        /* Sidebar Tab Styling */
+        .sidebar a {
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #4a5568; /* Gray-700 */
+            display: block;
+            transition: background 0.3s, color 0.3s, border-left 0.3s;
+            border-left: 4px solid transparent; /* Add left border */
+        }
+
+        /* Differentiate each tab */
+        .sidebar a:not(.active-link):hover {
+            background-color: #e2e8f0; /* Light Gray on hover */
+            color: #2d3748; /* Darker Gray */
+        }
+
+        /* Active Tab Highlight */
+        .active-link {
+            background-color: #4c51bf; /* Indigo-600 */
+            color: #ffffff !important; /* White text */
+            border-left: 4px solid #2c5282; /* Darker Indigo border */
+        }
+
+        /* Sidebar Styling */
+.sidebar {
+    height: 88vh;
+    width: 250px;
+    position: fixed;
+    top: 60px; /* Adjusted for fixed header */
+    left: 0;
+    background-color: #f7fafc;
+    padding-top: 20px;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Adds space between tabs */
+}
+
+/* Sidebar Tab Styling */
+.sidebar a {
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500; /* Semi-bold for better visibility */
+    color: #4a5568; /* Gray-700 */
+    display: block;
+    transition: background 0.3s, color 0.3s, border-left 0.3s;
+    border-left: 4px solid transparent; /* Left border for active state */
+    border-bottom: 1px solid #e2e8f0; /* Separator line between tabs */
+}
+
+/* Hover Effect for Tabs */
+.sidebar a:not(.active-link):hover {
+    background-color: #e2e8f0; /* Light Gray on hover */
+    color: #2d3748; /* Darker Gray */
+}
+
+/* Active Tab Styling */
+.active-link {
+    background-color: #4c51bf; /* Indigo-600 */
+    color: #ffffff; /* White text */
+    border-left: 4px solid #2c5282; /* Darker Indigo border */
+    font-weight: 600; /* Bold font for active tab */
+}
+
+
+
+
+        /* Main Content Styling */
+        .content {
+            margin-left: 250px;
+            margin-top: 100px; /* Space for fixed header */
+            padding: 35px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .module-card {
+            background-color: #f7fafc; /* Light Gray */
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        .hidden-content {
+            display: none;
+        }
+        .active-content {
+            display: block;
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0; /* Gray-200 */
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 8px;
+            background-color: #4c51bf; /* Indigo-600 */
+            transition: width 0.3s;
+        }
+        .px-5 {
+            padding-left: 17rem !important;
+            padding-right: 1.25rem;
+        }
+        .sidebar {
+            overflow: scroll;
+            top: 82px !important;
+        }
+        .content {
+            height: calc(100vh - 100px); /* Full height minus header */
+            overflow-y: auto; /* Enables scrolling */
+            margin-top: 30px;
+        }
+        .content {
+            overflow: scroll; /* Prevents scrolling for the container itself */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-card {
+            flex-grow: 1; /* Makes the module content expand to fill available space */
+            height: calc(100vh - 150px);
+            overflow-y: auto; /* Enables scrolling within the module content */
+        }
+         .code-block {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-left: 4px solid #4c51bf; /* Indigo border for the code block */
+            font-family: monospace;
+            color: #1f2937; /* Gray-900 */
+             font-size: 1.2rem;
+        }
+        .highlighted-text {
+            background-color: #f3f4f6;
+            color: #ff3232;
+            padding: 0.1rem 0.25rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .text-sm {
+            font-size: 1.1rem !important;
+            line-height: 1.25rem;
+        }
+        .code-block-cmd {
+            background-color: black;
+            color: white;
+            padding: 1rem;
+            border-left: 4px solid #4c51bf;
+            font-family: monospace;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Fixed Header -->
+    <header class="header text-gray-700 body-font">
+        <div class="container1 mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl">DSQuest</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="/" id="Explore" class="mr-5 hover:text-gray-900">Explore</a>
+                <a href="/problemQuestions" id="Practice" class="mr-5 hover:text-gray-900">Practice</a>
+                <a href="/payment_plan" id="Upgrade" class="mr-5 hover:text-gray-900">Upgrade</a>
+            </nav>
+            <!-- Profile Picture with Dropdown -->
+             <div class="relative">
+                <button onclick="toggleDropdown()" class="focus:outline-none">
+                    <img src="/static/images/avatar.png" alt="Profile Picture" class="w-10 h-10 rounded-full">
+                </button>
+                <!-- Dropdown Menu -->
+                <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
+                    <!--<a href="#profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+                    <a href="#settings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>-->
+                    <a href="/logout" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Sign Out</a>
+                </div>
+             </div>
+        </div>
+    </header>
+
+    <!-- Progress Bar below Header -->
+    <div class="container mx-auto mt-24 px-5">
+        <div class="flex items-center space-x-4">
+            <span>Progress:</span>
+            <div class="progress-bar w-full bg-gray-200">
+                <div id="progress-bar" class="progress" style="width: 0%;"></div>
+            </div>
+            <span id="progress-percentage">0%</span>
+            <input type="hidden" name="courses_status_id" id="courses_status_id"  value="{{courses_status_id}}">
+            <input type="hidden" name="courses_id" id="courses_id"  value="{{courses_id}}">
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <!-- <div class="sidebar">
+        <h2 class="text-xl font-bold mb-4 text-center text-gray-700">Course Modules</h2>
+        <a href="#!" onclick="showContent('module1')" id="link-module1">Module 1: Basics</a>
+        <a href="#!" onclick="showContent('module2')" id="link-module2">Module 2: Intermediate</a>
+        <a href="#!" onclick="showContent('quiz1')" id="link-quiz1">Quiz: Module 1</a>
+    </div> -->
+    <div class="sidebar">
+        <h2 class="text-xl font-bold mb-4 text-center text-gray-700">Python Tutorial</h2>
+        <a href="#!" class="active-link" onclick="showContent('module1')" id="link-module1">Python Home</a>
+        <a href="#!" onclick="showContent('module2')" id="link-module2">Python Intro</a>
+        <a href="#!" onclick="showContent('module3')" id="link-module3">Python Get Started</a>
+        <a href="#!" onclick="showContent('module4')" id="link-module4">Python Syntax</a>
+        <a href="#!" onclick="showContent('module5')" id="link-module5">Python Comments</a>
+        <a href="#!" onclick="showContent('module6')" id="link-module6">Python Variables</a>
+        <a href="#!" onclick="showContent('module7')" id="link-module7">Python Data Types</a>
+        <a href="#!" onclick="showContent('module8')" id="link-module8">Python Numbers</a>
+        <a href="#!" onclick="showContent('module9')" id="link-module9">Python Casting</a>
+        <a href="#!" onclick="showContent('module10')" id="link-module10">Python Strings</a>
+        <a href="#!" onclick="showContent('module11')" id="link-module11">Python Booleans</a>
+    </div>
+
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <!-- Module 1 Content -->
+        <div id="module1" class="hidden-content active-content">
+           <!-- <div class="module-card">-->
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Learn Python</h1>
+                <p class="mb-4 text-lg text-gray-600">Python is a popular programming language.</p>
+                <p class="mb-4 text-lg text-gray-600">Python can be used on a server to create web applications.</p>
+                <ul class="list-disc pl-6 mb-4 text-gray-600">
+                </ul>
+                <button onclick="markComplete('module1')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Start Learning Now</button>
+            <!--</div>-->
+        </div>
+
+        <!-- Module 2 Content -->
+        <div id="module2" class="hidden-content">
+           <!-- <div class="module-card">-->
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">What is Python?</h1>
+                <p class="mb-4 text-lg text-gray-600">Python is a popular programming language. It was created by Guido van Rossum, and released in 1991.</p>
+                <p class="mb-4 text-lg text-gray-600">It is used for:</p>
+                <ul class="list-disc pl-6 mb-4 text-gray-600">
+                    <li class="mb-2">web development (server-side),</li>
+                    <li class="mb-2">software development,</li>
+                    <li class="mb-2">mathematics,</li>
+                    <li class="mb-2">system scripting.</li>
+                </ul>
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">What can Python do?</h1>
+                <ul class="list-disc pl-6 mb-4 text-gray-600">
+                    <li class="mb-2">Python can be used on a server to create web applications.</li>
+                    <li class="mb-2">Python can be used alongside software to create workflows.</li>
+                    <li class="mb-2">Python can connect to database systems. It can also read and modify files.</li>
+                    <li class="mb-2">Python can be used to handle big data and perform complex mathematics.</li>
+                    <li class="mb-2">Python can be used for rapid prototyping, or for production-ready software development.</li>
+                </ul>
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Why Python?</h1>
+                <ul class="list-disc pl-6 mb-4 text-gray-600">
+                    <li class="mb-2">Python works on different platforms (Windows, Mac, Linux, Raspberry Pi, etc).</li>
+                    <li class="mb-2">Python has a simple syntax similar to the English language.</li>
+                    <li class="mb-2">Python has syntax that allows developers to write programs with fewer lines than some other programming languages.</li>
+                    <li class="mb-2">Python runs on an interpreter system, meaning that code can be executed as soon as it is written. This means that prototyping can be very quick.</li>
+                    <li class="mb-2">Python can be treated in a procedural way, an object-oriented way or a functional way.</li>
+                </ul>
+                <button onclick="markComplete('module2')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            <!--</div>-->
+        </div>
+
+         <!-- Module 3 Content -->
+        <div id="module3" class="hidden-content">
+          <!--  <div class="module-card">-->
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Python Install</h1>
+                <p class="mb-4 text-lg text-gray-600">Many PCs and Macs will have python already installed.</p>
+                <p class="mb-4 text-lg text-gray-600">To check if you have python installed on a Windows PC, search in the start bar for Python or run the following on the Command Line (cmd.exe):</p>
+
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <!-- Code Block -->
+                    <div class="code-block-cmd">
+                        C:\Users\Your Name>python --version
+                    </div>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">To check if you have python installed on a Linux or Mac, then on linux open the command line or on Mac open the Terminal and type:</p>
+
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <!-- Code Block -->
+                    <div class="code-block-cmd">
+                       python --version
+                    </div>
+                </div>
+                <button onclick="markComplete('module3')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            <!--</div>-->
+        </div>
+
+         <!-- Module 4 Content -->
+        <div id="module4" class="hidden-content">
+           <h1 class="text-3xl font-semibold mb-4 text-gray-800">Execute Python Syntax</h1>
+                <p class="mb-4 text-lg text-gray-600">As we learned in the previous page, Python syntax can be executed by writing directly in the Command Line:</p>
+
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <!-- Code Block -->
+                    <div class="code-block-cmd">
+                       <p> >>> print("Hello, World!")</p>
+                        <p>Hello, World!</p>
+                    </div>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Or by creating a python file on the server, using the .py file extension, and running it in the Command Line:</p>
+
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <!-- Code Block -->
+                    <div class="code-block-cmd">
+                      C:\Users\Your Name>python myfile.py
+                    </div>
+                </div>
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Python Indentation</h1>
+             <p class="mb-4 text-lg text-gray-600">Indentation refers to the spaces at the beginning of a code line.</p>
+             <p class="mb-4 text-lg text-gray-600">Where in other programming languages the indentation in code is for readability only, the indentation in Python is very important.</p>
+             <p class="mb-4 text-lg text-gray-600">Python uses indentation to indicate a block of code.</p>
+
+
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <!-- Code Block -->
+                    <div class="code-block">
+                        <pre>
+ if 5 > 2:
+    print("Five is greater than two!")
+                        </pre>
+                    </div>
+                </div>
+                <button onclick="markComplete('module4')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            <!--</div>-->
+        </div>
+
+         <!-- Module 5 Content -->
+        <div id="module5" class="hidden-content">
+           <h1 class="text-3xl font-semibold mb-4 text-gray-800">Python Comments</h1>
+                <p class="mb-4 text-lg text-gray-600">Comments can be used to explain Python code.</p>
+                <p class="mb-4 text-lg text-gray-600">Comments can be used to make the code more readable.</p>
+                <p class="mb-4 text-lg text-gray-600">Comments can be used to prevent execution when testing code.</p>
+
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Creating a Comment</h1>
+            <p class="mb-4 text-lg text-gray-600">Comments starts with a <span class="highlighted-text">#</span> , and Python will ignore them:</p>
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Select all customers from Germany or Spain:</p>
+                <!-- Code Block -->
+                <div class="code-block">
+                    <span style="color:green">#This is a comment <br/></span>
+                    <span style="color:mediumblue">print</span>(<span style="color:brown">"Hello, World!"</span>)
+                </div>
+            </div>
+
+            <p class="mb-4 text-lg text-gray-600">Comments can be placed at the end of a line, and Python will ignore the rest of the line:</p>
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Select all customers from Germany or Spain:</p>
+                <!-- Code Block -->
+                <div class="code-block">
+                    <span style="color:mediumblue">print</span>(<span style="color:brown">"Hello, World!"</span>) <span style="color:green"> #This is a comment</span>
+                </div>
+            </div>
+            <button onclick="markComplete('module5')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 6 Content -->
+        <div id="module6" class="hidden-content">
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Python Variables</h1>
+            <p class="mb-4 text-lg text-gray-600">Variables are containers for storing data values.</p>
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Creating Variables</h1>
+            <p class="mb-4 text-lg text-gray-600">Python has no command for declaring a variable.</p>
+            <p class="mb-4 text-lg text-gray-600">A variable is created the moment you first assign a value to it.</p>
+
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                 <!-- Code Block -->
+                <div class="code-block">
+                    x = <span style="color:red">5</span><br/>
+                    y = <span style="color:brown">"John"</span><br/>
+                    <span style="color:mediumblue">print</span>(x)<br/>
+                    <span style="color:mediumblue">print</span>(y)<br/>
+                </div>
+            </div>
+
+            <p class="mb-4 text-lg text-gray-600">Variables do not need to be declared with any particular type, and can even change type after they have been set.</p>
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <!-- Code Block -->
+                <div class="code-block">
+                    x = <span style="color:red">4</span><span style="color:green"> # x is of type int</span><br/>
+                    y = <span style="color:brown">"Sally"</span><span style="color:green"> # x is now of type str</span><br/>
+                    <span style="color:mediumblue">print</span>(x)<br/>
+                </div>
+            </div>
+                <button onclick="markComplete('module6')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 7 Content -->
+        <div id="module7" class="hidden-content">
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Built-in Data Types</h1>
+            <p class="mb-4 text-lg text-gray-600">In programming, data type is an important concept.</p>
+            <p class="mb-4 text-lg text-gray-600">Variables can store data of different types, and different types can do different things.</p>
+            <p class="mb-4 text-lg text-gray-600">Python has the following data types built-in by default, in these categories:</p>
+
+            <!-- Data Types Table -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <table class="table-auto w-full text-left">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-gray-800 font-bold">Category</th>
+                            <th class="px-4 py-2 text-gray-800 font-bold">Types</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-4 py-2">Text Type</td>
+                            <td class="border px-4 py-2">
+                                <span style="color: red;">str</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Numeric Types</td>
+                            <td class="border px-4 py-2">
+                                <span style="color: red;">int</span>, <span style="color: red;">float</span>, <span style="color: red;">complex</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Sequence Types</td>
+                            <td class="border px-4 py-2">
+                                <span style="color: red;">list</span>, <span style="color: red;">tuple</span>, <span style="color: red;">range</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Mapping Type</td>
+                            <td class="border px-4 py-2">
+                                <span style="color: red;">dict</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Set Types</td>
+                            <td class="border px-4 py-2">
+                                <span style="color: red;">set</span>, <span style="color: red;">frozenset</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Boolean Type</td>
+                            <td class="border px-4 py-2">
+                                <span style="color: red;">bool</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Binary Types</td>
+                            <td class="border px-4 py-2">
+                                <span style="color: red;">bytes</span>, <span style="color: red;">bytearray</span>, <span style="color: red;">memoryview</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">None Type</td>
+                            <td class="border px-4 py-2">
+                                <span style="color: red;">NoneType</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Getting the Data Type</h1>
+            <p class="mb-4 text-lg text-gray-600">You can get the data type of any object by using the <span class="highlighted-text">type()</span> function:</p>
+
+
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Print the data type of the variable x:</p>
+                 <!-- Code Block -->
+                <div class="code-block">
+                    x = <span style="color:red">5</span><br/>
+                    <span style="color:mediumblue">print(type</span>(x))<br/>
+                </div>
+            </div>
+                <button onclick="markComplete('module7')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 8 Content -->
+        <div id="module8" class="hidden-content">
+             <h1 class="text-3xl font-semibold mb-4 text-gray-800">Python Numbers</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                There are three numeric types in Python:
+            </p>
+            <!-- Data Types List -->
+            <div class="mt-6 p-6 rounded-lg border border-gray-300 bg-gray-100">
+                <ul class="list-disc list-inside">
+                    <li><span style="color: red;">int</span></li>
+                    <li><span style="color: red;">float</span></li>
+                    <li><span style="color: red;">complex</span></li>
+                </ul>
+            </div>
+
+            <p class="mb-4 text-lg text-gray-600">Variables of numeric types are created when you assign a value to them:</p>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+               <!-- Code Block -->
+                <div class="code-block">
+                    x = <span style="color:red">1</span><span style="color:green"> # int</span><br/>
+                    y = <span style="color:red">2.8</span><span style="color:green"> # float</span><br/>
+                    Z = 1j<span style="color:green"> # complex</span><br/>
+
+                </div>
+            </div>
+            <p class="mb-4 text-lg text-gray-600">To verify the type of any object in Python, use the <span class="highlighted-text">type()</span> function:</p>
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+               <!-- Code Block -->
+                <div class="code-block">
+                    <span style="color:mediumblue">print(type</span>(x))<br/>
+                    <span style="color:mediumblue">print(type</span>(y))<br/>
+                    <span style="color:mediumblue">print(type</span>(z))<br/>
+
+                </div>
+            </div>
+
+                <button onclick="markComplete('module8')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 9 Content -->
+        <div id="module9" class="hidden-content">
+             <h1 class="text-3xl font-semibold mb-4 text-gray-800">Specify a Variable Type</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                There may be times when you want to specify a type on to a variable. This can be done with casting. Python is an object-orientated language, and as such it uses classes to define data types, including its primitive types. </p>
+
+            <p class="mb-4 text-lg text-gray-600">
+             Casting in python is therefore done using constructor functions:The <span class="highlighted-text">AND</span> operator is used to filter records based on more than one condition, like if you want to return all customers from Spain that starts with the letter 'G':
+            </p>
+
+            <!-- Data Types List -->
+            <div class="mt-6 p-6 rounded-lg border-gray-300" style="font-size: larger;">
+                <ul class="list-disc list-inside">
+                    <li style="margin-bottom: 12px;"><span class="highlighted-text">int()</span> - constructs an integer number from an integer literal, a float literal (by removing all decimals), or a string literal (providing the string represents a whole number)</li>
+                    <li style="margin-bottom: 12px;"><span class="highlighted-text">float()</span> - constructs a float number from an integer literal, a float literal or a string literal (providing the string represents a float or an integer)</li>
+                    <li style="margin-bottom: 12px;"><span class="highlighted-text">str()</span> - constructs a string from a wide variety of data types, including strings, integer literals and float literals</li>
+                </ul>
+            </div>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Integers:</p>
+                <!-- Code Block -->
+                <div class="code-block">
+                    x = <span style="color: mediumblue">int</span>(<span style="color: red">1</span>)<span style="color: green">   # x will be 1</span><br/>
+                    y = <span style="color: mediumblue">int</span>(<span style="color: red">2.8</span>)<span style="color: green"> # y will be 2</span><br/>
+                    z = <span style="color: mediumblue">int</span>(<span style="color: red">"3")</span>)<span style="color: green"> # z will be 3</span><br/>
+                </div>
+            </div>
+                <button onclick="markComplete('module9')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 10 Content -->
+        <div id="module10" class="hidden-content">
+            <div class="module-card">
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Python Strings</h1>
+                <p class="mb-4 text-lg text-gray-600">Strings in python are surrounded by either single quotation marks, or double quotation marks.</p>
+                <p class="mb-4 text-lg text-gray-600"><span class="highlighted-text">'hello'</span> is the same as <span class="highlighted-text">"hello"</span>.</p>
+                <p class="mb-4 text-lg text-gray-600">You can display a string literal with the print() function:</p>
+                <!-- Example Box -->
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                    </div>
+                    <!-- Code Block -->
+                    <div class="code-block">
+                       <span style="color: mediumblue">print</span>(<span style="color: brown">"Hello"</span>)<br/>
+                       <span style="color: mediumblue">print</span>(<span style="color: brown">'Hello'</span>)<br/>
+                    </div>
+                </div>
+
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Quotes Inside Quotes</h1>
+                <p class="mb-4 text-lg text-gray-600">You can use quotes inside a string, as long as they don't match the quotes surrounding the string:</p>
+               <!-- Example Box -->
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                    </div>
+                    <!-- Code Block -->
+                    <div class="code-block">
+                        <span style="color: mediumblue">print</span>(<span style="color: brown">"It's alright"</span>)<br/>
+                        <span style="color: mediumblue">print</span>(<span style="color: brown">"He is called 'Johnny'"</span>)<br/>
+                        <span style="color: mediumblue">print</span>(<span style="color: brown">'He is called "Johnny"'</span>)<br/>
+                    </div>
+                </div>
+
+                <button onclick="markComplete('module10')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            </div>
+        </div>
+
+         <!-- Module 11 Content -->
+        <div id="module11" class="hidden-content">
+            <div class="module-card">
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Python Booleans</h1>
+                <p class="mb-4 text-lg text-gray-600">Booleans represent one of two values: <span class="highlighted-text">True</span> or <span class="highlighted-text">False</span>.</p>
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Boolean Values</h1>
+                <p class="mb-4 text-lg text-gray-600">In programming you often need to know if an expression is <span class="highlighted-text">True</span> or <span class="highlighted-text">False.</span></p>
+                <p class="mb-4 text-lg text-gray-600">You can evaluate any expression in Python, and get one of two answers, <span class="highlighted-text">True</span> or <span class="highlighted-text">False</span>.</p>
+                <p class="mb-4 text-lg text-gray-600">When you compare two values, the expression is evaluated and Python returns the Boolean answer:</p>
+                <!-- Example Box -->
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                    </div>
+                    <!-- Code Block -->
+                    <div class="code-block">
+                       <span style="color: mediumblue">print</span>(<span style="color: red">10 </span>><span style="color: red"> 9</span>)<br/>
+                       <span style="color: mediumblue">print</span>(<span style="color: red">10 </span>==<span style="color: red"> 9</span>)<br/>
+                        <span style="color: mediumblue">print</span>(<span style="color: red">10 </span><<span style="color: red"> 9</span>)<br/>
+                    </div>
+                </div>
+
+               <p class="mb-4 text-lg text-gray-600">When you run a condition in an if statement, Python returns <span class="highlighted-text">True</span> or <span class="highlighted-text">False</span>:</p>
+               <!-- Example Box -->
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                    </div>
+                    <p class="mb-4 text-lg text-gray-600">Print a message based on whether the condition is <span class="highlighted-text">True</span> or <span class="highlighted-text">False</span>:</p>
+
+                    <!-- Code Block -->
+                    <div class="code-block">
+                        <span style="color: mediumblue">print</span>(<span style="color: brown">"It's alright"</span>)<br/>
+                        <span style="color: mediumblue">print</span>(<span style="color: brown">"He is called 'Johnny'"</span>)<br/>
+                        <span style="color: mediumblue">print</span>(<span style="color: brown">'He is called "Johnny"'</span>)<br/>
+                    </div>
+                </div>
+                <button onclick="markComplete('module11')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">End Course</button>
+            </div>
+        </div>
+
+        <!-- Quiz 1 Content
+        <div id="quiz1" class="hidden-content">
+            <div class="module-card">
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Quiz: Module 1</h1>
+                <p class="mb-4 text-lg text-gray-600">Test your knowledge on the basics of web development:</p>
+                <div class="mb-6">
+                    <p class="text-lg font-semibold mb-2">1. What does HTML stand for?</p>
+                    <div class="quiz-option bg-gray-200 py-2 px-4 mb-2 rounded cursor-pointer hover:bg-indigo-500 hover:text-white" onclick="checkAnswer(this, 'correct')">HyperText Markup Language</div>
+                    <div class="quiz-option bg-gray-200 py-2 px-4 mb-2 rounded cursor-pointer hover:bg-indigo-500 hover:text-white" onclick="checkAnswer(this, 'wrong')">Hyperlink Markdown Language</div>
+                    <div class="quiz-option bg-gray-200 py-2 px-4 mb-2 rounded cursor-pointer hover:bg-indigo-500 hover:text-white" onclick="checkAnswer(this, 'wrong')">HighText Machine Learning</div>
+                    <div class="quiz-option bg-gray-200 py-2 px-4 rounded cursor-pointer hover:bg-indigo-500 hover:text-white" onclick="checkAnswer(this, 'wrong')">Hyperlink Machine Language</div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+
+    <!-- JavaScript for Tab Switching -->
+     <script src="/static/js/vendor/jquery-3.3.1.min.js"></script>
+    <!---
+    <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+    -->
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js"></script>
+    <script>
+        function showContent(sectionId) {
+            var sections = document.querySelectorAll('.hidden-content');
+            sections.forEach(function(section) {
+                section.classList.remove('active-content');
+            });
+
+            var targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active-content');
+            }
+
+            var links = document.querySelectorAll('.sidebar a');
+            links.forEach(function(link) {
+                link.classList.remove('active-link');
+            });
+
+            var activeLink = document.getElementById('link-' + sectionId);
+            if (activeLink) {
+                activeLink.classList.add('active-link');
+            }
+        }
+    </script>
+
+    <script>
+    // Declare moduleIds globally so all functions can access it
+    let moduleIds = [];
+    var completedModules = {{ completedModules|tojson }};
+
+    // Initialize modules and progress on page load
+    window.onload = function() {
+        // Select modules only within the content container to ensure consistency
+        const contentContainer = document.querySelector('.content');
+        const moduleElements = Array.from(contentContainer.querySelectorAll('.hidden-content'));
+
+        // Populate moduleIds with the IDs of each module
+        moduleIds = moduleElements.map(element => element.id);
+
+        // Debug: Log all module IDs detected
+        console.log("Modules found:", moduleIds);
+
+        // Update progress after moduleIds is populated
+        updateProgress();
+        if (completedModules.length > 0) {
+            var lastItem = completedModules[completedModules.length - 1];
+            console.log("Last item:", lastItem); // Output the last item
+            moveToNextModule(lastItem);
+         } else {
+            console.log("The list is empty.");
+         }
+    };
+
+    // Progress tracking and completion
+    //var completedModules = JSON.parse(localStorage.getItem('completedModules')) || [];
+
+    function markComplete(moduleId) {
+        // Mark the current module as complete if not already completed
+        if (!completedModules.includes(moduleId)) {
+            completedModules.push(moduleId);
+            localStorage.setItem('completedModules', JSON.stringify(completedModules));
+            updateProgress();
+
+            insert_into_database(moduleId)
+            //alert(moduleId + ' marked as complete!');
+
+            // Move to the next module
+            moveToNextModule(moduleId);
+        } else {
+            alert(moduleId + ' is already completed!');
+             moveToNextModule(moduleId);
+        }
+    }
+
+    function moveToNextModule(currentModuleId) {
+        // Find the index of the current module in the dynamic module list
+        const currentIndex = moduleIds.indexOf(currentModuleId);
+
+        // Debugging: Log the current index and currentModuleId
+        console.log("Current module ID:", currentModuleId, "at index:", currentIndex);
+
+        // Determine the next module's ID and display it if it exists
+        const nextModuleId = moduleIds[currentIndex + 1];
+
+        // Debugging: Log the next module ID
+        console.log("Next module ID:", nextModuleId);
+
+        if (nextModuleId) {
+            showContent(nextModuleId);
+        } else {
+            alert("You've completed all modules!");
+        }
+    }
+
+    function updateProgress() {
+        // Ensure that moduleIds is populated before calculating totalModules
+        var totalModules = moduleIds.length;
+        if (totalModules === 0) {
+            console.warn("No modules found for progress calculation.");
+            return;
+        }
+
+        // Calculate progress
+        var progress = (completedModules.length / totalModules) * 100;
+        document.getElementById('progress-bar').style.width = progress + '%';
+        document.getElementById('progress-percentage').textContent = progress.toFixed(1) + '%';
+
+        // Debugging: Log progress calculation details
+        console.log("Completed modules:", completedModules.length, "of", totalModules);
+    }
+
+    function showContent(sectionId) {
+        var sections = document.querySelectorAll('.hidden-content');
+        sections.forEach(function(section) {
+            section.classList.remove('active-content');
+        });
+
+        var targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.classList.add('active-content');
+        }
+
+        var links = document.querySelectorAll('.sidebar a');
+        links.forEach(function(link) {
+            link.classList.remove('active-link');
+        });
+
+        var activeLink = document.getElementById('link-' + sectionId);
+        if (activeLink) {
+            activeLink.classList.add('active-link');
+        }
+    }
+</script>
+<script>
+   function toggleDropdown() {
+       const dropdownMenu = document.getElementById("dropdownMenu");
+       dropdownMenu.classList.toggle("hidden");
+   }
+
+   // Close dropdown when clicking outside
+   window.onclick = function(event) {
+       const dropdownMenu = document.getElementById("dropdownMenu");
+       if (!event.target.matches('img') && !event.target.matches('#dropdownMenu a')) {
+           dropdownMenu.classList.add("hidden");
+       }
+   };
+ </script>
+</body>
+</html>

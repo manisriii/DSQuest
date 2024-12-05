@@ -1,0 +1,536 @@
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ problem.title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap1.min.css"/>
+<!--    <link rel="stylesheet" href="/static/css/prooblem/styles.css"/>-->
+    <style>
+        body { background-color: #f8f9fa; }
+        .problem-container { padding: 20px; }
+        .problem-description { overflow-y: auto; height: 75vh; }
+        .code-editor { height: 75vh; }
+        .test-results { margin-top: 10px; height: 33vh; overflow-y: auto; }
+
+        .py-24 {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+        @media (min-width: 768px) {
+            .md\:text-left {
+                text-align: CENTER !important;
+            }
+        }
+        @media (min-width: 1024px) {
+            .lg\:w-1\/6 {
+                width: 100% !important;
+            }
+        }
+        .tracking-widest {
+            letter-spacing: .1em;
+            font-size: large;
+            padding-bottom: 1rem;
+        }
+        @media (min-width: 768px) {
+            .md\:justify-start {
+                justify-content: center !important;
+            }
+        }
+        @media (min-width: 1024px) {
+            .lg\:ml-auto {
+                margin: auto !important;
+            }
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6366f1;
+            border-color: #6366f1;
+        }
+         .problem-description {
+             height: 119vh;
+             overflow: scroll;
+             border-top: 1px solid #dee2e6 !important;
+             border-left: 1px solid #dee2e6 !important;
+             border-bottom: 1px solid #dee2e6 !important;
+             border-right: none !important;
+         }
+         /* Styling scrollbars for thin width */
+.problem-description, .test-results {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #cccccc #f8f9fa; /* Firefox */
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.problem-description::-webkit-scrollbar,
+.test-results::-webkit-scrollbar {
+    width: 6px; /* Set scrollbar width */
+}
+
+.problem-description::-webkit-scrollbar-track,
+.test-results::-webkit-scrollbar-track {
+    background: #f8f9fa; /* Track background color */
+}
+
+.problem-description::-webkit-scrollbar-thumb,
+.test-results::-webkit-scrollbar-thumb {
+    background-color: #cccccc; /* Scrollbar thumb color */
+    border-radius: 10px;       /* Rounded edges for thumb */
+}
+
+.col-md-7 {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    max-width: 50%;
+    border: 1px solid #dee2e6 !important;
+    height: 119vh;
+}
+.mb-2, .my-2 {
+    margin: .5rem !important;
+    /* margin-top: .5rem !important; */
+}
+.code-editor {
+    height: 73vh !important;
+}
+
+@media (min-width: 768px) {
+    .col-md-5 {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+}
+
+        /* Title Section */
+.title-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.title-section h1 {
+    font-size: 1.8em;
+    color: #333;
+}
+
+.difficulty {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.companies {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Description Section */
+.description-section {
+    margin-top: 20px;
+}
+
+.description-section h2 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.description-section p {
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Example Section */
+.example-section {
+    margin-top: 20px;
+}
+
+.example-section h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.example-box {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+}
+
+.example-box code {
+    background-color: #e8e8e8;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.95em;
+    color: #c7254e;
+}
+
+.example-box pre {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Info Section */
+.info-section {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+    display: flex;
+    flex-direction: column;
+}
+
+.additional-links a {
+    color: #0073e6;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.additional-links a:hover {
+    text-decoration: underline;
+}
+
+/* Hint Section */
+.hint-section {
+    margin-top: 20px;
+}
+
+.hint-toggle {
+    color: #0073e6;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#hint {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 3px solid #0073e6;
+    margin-top: 10px;
+    border-radius: 5px;
+    color: #333;
+}
+/* Tab Button Styling */
+.tab-buttons .tab-button {
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+.tab-buttons .tab-button.active {
+    border-color: #6366f1; /* Active tab border color */
+    color: #6366f1;
+}
+
+/* Tab Content Styling */
+.tab-content {
+    display: none; /* Hide content by default */
+}
+.tab-content.active {
+    display: block; /* Show only active content */
+}
+.hidden {
+    display: none;
+}
+/* Wrapper around code to control overall padding and alignment */
+.code-wrapper {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+/* Code Content Styling */
+.code-content {
+    text-align: left;
+    margin: 0;  /* Remove margin */
+    white-space: pre-wrap; /* Ensure long lines wrap if needed */
+    font-family: monospace; /* Use monospace font for code */
+    font-size: 0.9em;
+    overflow-x: auto; /* Enable horizontal scrolling if necessary */
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 98vh;
+}
+    </style>
+</head>
+<body>
+    <!-- Header from landingPage.html -->
+    <header class="text-gray-700 body-font border-b border-gray-200">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl">DSQuest</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="/" class="mr-5 hover:text-gray-900">Explore</a>
+                <a href="/problemQuestions" class="mr-5 hover:text-gray-900">Practice</a>
+                <a href="/payment_plan" class="mr-5 hover:text-gray-900">Upgrade</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="problem-container container-fluid">
+        <div class="row">
+            <!-- Left Side: Problem Description -->
+<!--            <div class="col-md-5 problem-description">-->
+<!--                <h2 class="underline">{{ problem.title }}</h2>-->
+<!--                <p><strong>Difficulty:</strong> <span class="underline">{{ problem.difficulty }}</span></p>-->
+<!--                <p class="">{{ problem.description }}</p>-->
+<!--                <h5 class="">Examples:</h5>-->
+<!--                {% for example in problem.examples %}-->
+<!--                    <p><strong>Input:</strong> <span class="">{{ example.input }}</span></p>-->
+<!--                    <p><strong>Output:</strong> <span class="">{{ example.output }}</span></p>-->
+<!--                {% endfor %}-->
+<!--                <h5 class="">Constraints:</h5>-->
+<!--                <p class="">{{ problem.constraints }}</p>-->
+<!--            </div>-->
+
+            <div class="container col-md-5 problem-description">
+               <div class="tab-buttons flex mb-4 border-b">
+                    <button id="descriptionTab" class="tab-button active text-gray-700 px-4 py-2 font-semibold border-b-2" onclick="showTab('description')">Description</button>
+                    <button id="solutionTab" class="tab-button text-gray-700 px-4 py-2 font-semibold border-b-2 border-transparent" onclick="showTab('solution')">Solution</button>
+               </div>
+
+                <!-- Description Tab Content -->
+                <div id="descriptionContent" class="tab-content active">
+                    <div class="title-section">
+                        <h1>{{ problem['title'] }}</h1>
+                        <span class="difficulty">{{ problem['difficulty'] }}</span>
+                    </div>
+
+                    <div class="description-section">
+                        <h2>Description</h2>
+                        <p>{{ problem['description'] }}</p>
+                    </div>
+
+                    <div class="example-section">
+                        <h3>Example 1:</h3>
+                        <div class="example-box">
+                            <p><strong>Input:</strong> <code>{{ problem['example_input'] }}</code></p>
+                            <p><strong>Output:</strong></p>
+                            <pre>{{ problem['example_output'] }}</pre>
+                            <p><strong>Explanation:</strong> {{ problem['explanation'] }}</p>
+                        </div>
+                    </div>
+
+                    <div class="hint-section">
+                        <p class="hint-toggle" onclick="toggleHint()">Hint</p>
+                        <div id="hint" style="display:none;">
+                            <p>Try using the pandas library in Python to create a DataFrame from a list.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution Tab Content (Initially Hidden) -->
+                <div id="solutionContent" class="tab-content hidden">
+                    <h2 class="text-lg font-semibold mb-4">Solution Code</h2>
+                    <div class="code-wrapper">
+                        <pre class="code-content">
+{{problem['solution_']}}
+
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Code Editor & Buttons -->
+            <div class="col-md-7">
+                <div class="d-flex justify-content-between mb-2">
+                    <select id="languageSelect" class="form-control w-25">
+                        <option value="python">Python</option>
+                        <option value="javascript">JavaScript</option>
+                    </select>
+
+                    <!-- Wrap buttons in a flex container and push to the right end -->
+                    <div class="d-flex ms-auto" style="gap: 1rem;">
+                        <button id="runBtn" class="btn btn-primary me-2">Run</button>
+                        <button id="submitBtn" class="btn btn-success" disabled>Submit</button>
+                    </div>
+                </div>
+
+                <div id="editor" class="code-editor border"></div>
+
+                <!-- Test Results -->
+                <div class="test-results border mt-3 p-2">
+                    <h5 class="underline">Test Results:</h5>
+                    <div id="testResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer from landingPage.html -->
+    <footer class="text-gray-700 body-font">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">Useful Links</h2>
+                    <nav class="list-none mb-10">
+                        <ul class="flex space-x-4 justify-center md:justify-start">
+                            <li><a class="text-gray-600 hover:text-gray-800">Help Center</a></li>
+                            <li><a class="text-gray-600 hover:text-gray-800">Students</a></li>
+                            <li><a class="text-gray-600 hover:text-gray-800">Terms</a></li>
+                            <li><a class="text-gray-600 hover:text-gray-800">Privacy Policy</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-200">
+            <div class="container px-5 py-8 flex flex-wrap mx-auto items-center">
+                <span class="inline-flex lg:ml-auto lg:mt-0 mt-6 w-full justify-center md:justify-start md:w-auto">
+                  <a class="text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                      <circle cx="4" cy="4" r="2" stroke="none"></circle>
+                    </svg>
+                  </a>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        // Initialize Ace Editor
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/sql");
+
+        // Handle language change
+        $('#languageSelect').change(function() {
+            var selectedLang = $(this).val();
+            if (selectedLang === 'python') {
+                editor.session.setMode("ace/mode/python");
+            }else if (selectedLang === 'javascript') {
+                editor.session.setMode("ace/mode/javascript");
+            }else if (selectedLang === 'sql') {
+                editor.session.setMode("ace/mode/sql");
+            }
+        });
+
+<!--        // Handle Run Button Click-->
+<!--        $('#runBtn').click(function() {-->
+<!--            var userCode = editor.getValue();-->
+<!--            var language = $('#languageSelect').val();-->
+<!--            $.ajax({-->
+<!--                url: '/compile_code',-->
+<!--                type: 'POST',-->
+<!--                contentType: 'application/json',-->
+<!--                data: JSON.stringify({ code: userCode, language_selected:language,problem_id: {{ problem.Id }} }),-->
+<!--                success: function(response) {-->
+<!--                    $('#testResults').html('');-->
+<!--                    if (response.status === 'success') {-->
+<!--                        $('#testResults').append(-->
+<!--                        '<div><strong>Input:</strong> ' + response.input_data +-->
+<!--                            '<br><strong>Expected:</strong> ' + response.expected_output +-->
+<!--                            '<br><strong>Actual:</strong> ' + response.actual_Output +-->
+<!--                            '<br><strong>Actual:</strong> ' + response.status +-->
+<!--                            '<br><strong>Status:</strong> ' + response.message + '</div><hr>'-->
+<!--                            );-->
+<!--                        $('#submitBtn').prop('disabled', false);-->
+<!--                    } else {-->
+<!--                        $('#testResults').append('<div><strong>Compilation Error:</strong> ' + response.message + ' <br><strong>Status:</strong> ' + response.status + '</div>');-->
+<!--                        $('#submitBtn').prop('disabled', true);-->
+<!--                    }-->
+<!--                },-->
+<!--                error: function() {-->
+<!--                    alert('Error during code compilation!');-->
+<!--                    $('#submitBtn').prop('disabled', true);-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+
+        $('#runBtn').click(function() {
+            var userCode = editor.getValue();
+            $.ajax({
+                url: '/compile_sql_code',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    code: userCode,
+                    problem_id: {{ problem.Id }}
+                }),
+                success: function(response) {
+                    $('#testResults').html('');
+                    response.results.forEach(function(result) {
+                        $('#testResults').append(
+                            '<div><strong>Message:</strong> ' + result.message +
+                            '<br><strong>Expected:</strong> ' + result.expected_output +
+                            '<br><strong>Actual:</strong> ' + result.user_output +
+                            '<br><strong>Status:</strong> ' + result.status + '</div><hr>'
+                        );
+                    });
+                },
+                error: function() {
+                    alert('Error during submission!');
+                }
+            });
+        });
+    </script>
+
+<script>
+        // Toggle hint visibility
+        function toggleHint() {
+            const hintDiv = document.getElementById("hint");
+            hintDiv.style.display = hintDiv.style.display === "none" ? "block" : "none";
+        }
+    </script>
+<script>
+    function showTab(tab) {
+    // Get all tab buttons and tab contents
+    const descriptionTab = document.getElementById('descriptionTab');
+    const solutionTab = document.getElementById('solutionTab');
+    const descriptionContent = document.getElementById('descriptionContent');
+    const solutionContent = document.getElementById('solutionContent');
+
+    // Remove active class from both buttons and contents
+    descriptionTab.classList.remove('active');
+    solutionTab.classList.remove('active');
+    descriptionContent.classList.remove('active');
+    solutionContent.classList.remove('active');
+
+    // Add active class to the selected tab and content
+    if (tab === 'description') {
+        descriptionTab.classList.add('active');
+        descriptionContent.classList.add('active');
+    } else {
+        solutionTab.classList.add('active');
+        solutionContent.classList.add('active');
+    }
+}
+
+</script>
+</body>
+</html>

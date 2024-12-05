@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"/>
+    <title>Problems with  Filters</title>
+    <style>
+        /* Header Styling */
+        .custom-header {
+            {#font-family: 'Noto Sans', sans-serif !important;#}
+            {#font-size: 1.25rem !important; #}
+            padding: 1.25rem !important;
+            {#background-color: #f7fafc !important;#}
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .custom-header a {
+            font-size: 1rem !important;
+        }
+        .custom-header button {
+            {#font-size: 1rem !important;#}
+            {#padding: 0.5rem 1rem !important;#}
+        }
+        /* Table Styling */
+        .table-container {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Noto Sans', sans-serif;
+        }
+        .custom-table thead {
+            background-color: #6466f1;
+            color: white;
+        }
+        .custom-table th,
+        .custom-table td {
+            padding: 12px 20px;
+            border: 1px solid #ccc;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+        .custom-table tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .radio-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .radio-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            min-width: 150px;
+            justify-content: center;
+            background-color: white;
+        }
+        .radio-button input {
+            display: none;
+        }
+        .radio-button.selected {
+            background-color: #f0f0f0;
+            border-color: #6466f1;
+            color: #6466f1;
+        }
+        .filter-dropdown, .search-input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        .search-input {
+            flex-grow: 1;
+        }
+        @media (min-width: 1024px) {
+            .lg\:w-1\/6 {
+                width: 100% !important;
+            }
+        }
+        @media (min-width: 768px) {
+            .md\:justify-start {
+                justify-content: center !important;
+            }
+        }
+        @media (min-width: 768px) {
+            .md\:text-left {
+                text-align: CENTER !important;
+            }
+        }
+        .py-24 {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+        .tracking-widest {
+            letter-spacing: .1em;
+            font-size: large;
+            padding-bottom: 1rem;
+        }
+        @media (min-width: 1024px) {
+            .lg\:ml-auto {
+                margin: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="custom-header text-gray-700 body-font border-b border-gray-200">
+        <div class="container mx-auto flex flex-wrap items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl">DSQuest</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="/" class="mr-5 hover:text-gray-900">Explore</a>
+                <a href="/problemQuestions" class="mr-5 hover:text-gray-900">Practice</a>
+                <a href="/payment_plan" class="mr-5 hover:text-gray-900">Upgrade</a>
+            </nav>
+            <!-- Profile Picture with Dropdown -->
+             <div class="relative">
+                <button onclick="toggleDropdown()" class="focus:outline-none">
+                    <img src="../static/images/avatar.png" alt="Profile Picture" class="w-10 h-10 rounded-full">
+                </button>
+                <!-- Dropdown Menu -->
+                <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
+                    <!--<a href="#profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+                    <a href="#settings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>-->
+                    <a href="/logout" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Sign Out</a>
+                </div>
+             </div>
+        </div>
+    </header>
+
+    <!-- Filters and Table Container -->
+    <div class="py-6 mx-auto min-h-screen bg-gray-100" style="padding-left: 2rem;padding-right: 2rem;">
+        <h1 class="text-2xl font-bold mb-4 text-gray-900">Problem Set with Filters</h1>
+
+        <!-- Filters in a Single Row -->
+        <div class="filter-container">
+            <!-- Radio Button Filter for Type -->
+            <div class="radio-group">
+                <label class="radio-button selected" data-value="">
+                    <input type="radio" name="typeFilter" value="">
+                    All
+                </label>
+                <label class="radio-button" data-value="pandas">
+                    <input type="radio" name="typeFilter" value="pandas">
+                    Pandas
+                </label>
+                <label class="radio-button" data-value="python">
+                    <input type="radio" name="typeFilter" value="python">
+                    Python
+                </label>
+                <label class="radio-button" data-value="sql">
+                    <input type="radio" name="typeFilter" value="sql">
+                    SQL
+                </label>
+            </div>
+
+            <select id="difficultyFilter" class="filter-dropdown">
+                <option value="">Filter by Difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+
+            <!--<select id="acceptanceFilter" class="filter-dropdown">
+                <option value="">Filter by Acceptance</option>
+                <option value="0-20">0-20%</option>
+                <option value="21-40">21-40%</option>
+                <option value="41-60">41-60%</option>
+                <option value="61-80">61-80%</option>
+                <option value="81-100">81-100%</option>
+            </select>-->
+
+            <!-- Search Box -->
+            <input type="text" id="search" class="search-input" placeholder="Search problems...">
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container">
+            <!-- Pagination Controls -->
+            <div class="pagination-controls mt-4 mb-4 flex justify-end items-center gap-4">
+                <button id="prevPage" class="px-4 py-2 bg-indigo-500 text-white rounded" onclick="changePage(-1)" disabled>Previous</button>
+                <span id="pageIndicator" class="text-gray-700">Page 1 of X</span>
+                <button id="nextPage" class="px-4 py-2 bg-indigo-500 text-white rounded" onclick="changePage(1)">Next</button>
+            </div>
+
+            <table class="custom-table">
+                <!-- Table Header -->
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Difficulty</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <!-- Table Body -->
+                <tbody id="problemTable">
+                {% for name in range(count_row) %}
+                <tr data-type="{{types[name]}}" data-difficulty="{{difficultys[name]|lower}}" data-acceptance="45.5" data-status="solved">
+                    <td>{{id_s[name]}}</td>
+                    <td>{{titles[name]}}</td>
+                    <td>
+                        <span
+                            class="{% if difficultys[name]|lower == 'easy' %}text-green-500{% elif difficultys[name]|lower == 'medium' %}text-yellow-500{% elif difficultys[name]|lower == 'hard' %}text-red-500{% endif %}">
+                            {{difficultys[name]}}
+                        </span>
+                    </td>
+                    <td>{{types[name]}}</td>
+                    {% if types[name] == 'sql' %}
+                    <td><a href="/problem_sql/{{id_s[name]}}" class="text-indigo-600 hover:underline">Solve</a></td>
+                    {% else %}
+                    <td><a href="/problem/{{id_s[name]}}" class="text-indigo-600 hover:underline">Solve</a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            </table>
+        </div>
+    </div>
+
+     <footer class="text-gray-700 body-font">
+            <div class="container px-5 py-24 mx-auto">
+              <div class="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                  <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">Useful Links</h2>
+                  <nav class="list-none mb-10">
+                    <ul class="flex space-x-4 justify-center md:justify-start">
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Help Center</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Students</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Terms</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Privacy Policy</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-gray-200">
+              <div class="container px-5 py-8 flex flex-wrap mx-auto items-center">
+                <!-- <div class="flex md:flex-no-wrap flex-wrap justify-center md:justify-start">
+                  <input class="sm:w-64 w-40 bg-gray-100 rounded sm:mr-4 mr-2 border border-gray-400 focus:outline-none focus:border-indigo-500 text-base py-2 px-4" placeholder="Placeholder" type="text">
+                  <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
+                  <p class="text-gray-500 text-sm md:ml-6 md:mt-0 mt-2 sm:text-left text-center">Bitters chicharrones fanny pack
+                    <br class="lg:block hidden">waistcoat green juice
+                  </p>
+                </div> -->
+                <span class="inline-flex lg:ml-auto lg:mt-0 mt-6 w-full justify-center md:justify-start md:w-auto">
+                  <a class="text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                      <circle cx="4" cy="4" r="2" stroke="none"></circle>
+                    </svg>
+                  </a>
+                </span>
+              </div>
+            </div>
+            <!-- <div class="bg-gray-200">
+              <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
+                <p class="text-gray-500 text-sm text-center sm:text-left">© 2020 Tailwind Blocks —
+                  <a href="https://twitter.com/knyttneve" class="text-gray-600 ml-1" target="_blank" rel="noopener noreferrer">@knyttneve</a>
+                </p>
+                <span class="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">Enamel pin tousled raclette tacos irony</span>
+              </div>
+            </div> -->
+          </footer>
+    <!-- JavaScript for Filter and Search Functionality -->
+    <script>
+        // Event listeners for radio buttons and other filters
+        document.querySelectorAll('.radio-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.radio-button').forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                filterTable();
+            });
+        });
+        document.getElementById('difficultyFilter').addEventListener('change', filterTable);
+        {#document.getElementById('acceptanceFilter').addEventListener('change', filterTable);#}
+        document.getElementById('search').addEventListener('input', filterTable);
+
+        function filterTable() {
+            const typeFilter = document.querySelector('.radio-button.selected')?.getAttribute('data-value');
+            const difficultyFilter = document.getElementById('difficultyFilter').value.toLowerCase();
+            {#const acceptanceFilter = document.getElementById('acceptanceFilter').value;#}
+            const searchFilter = document.getElementById('search').value.toLowerCase();
+
+            const rows = document.querySelectorAll('#problemTable tr');
+            
+            rows.forEach(row => {
+                const type = row.getAttribute('data-type');
+                const difficulty = row.getAttribute('data-difficulty');
+                const acceptance = parseFloat(row.getAttribute('data-acceptance'));
+                const title = row.cells[1].textContent.toLowerCase();
+
+                const typeMatch = typeFilter ? type === typeFilter : true;
+                const difficultyMatch = difficultyFilter ? difficulty === difficultyFilter : true;
+                {#const acceptanceMatch = acceptanceFilter ? (acceptance >= parseInt(acceptanceFilter.split('-')[0]) && acceptance <= parseInt(acceptanceFilter.split('-')[1])) : true;#}
+                
+                const titleMatch = title.includes(searchFilter);
+
+                if (typeMatch && difficultyMatch && titleMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+<script>
+    // Pagination Variables
+let currentPage = 1;
+const rowsPerPage = 10;
+
+// Function to Filter and Display Rows Based on Filters
+function filterTable() {
+    const typeFilter = document.querySelector('.radio-button.selected')?.getAttribute('data-value');
+    const difficultyFilter = document.getElementById('difficultyFilter').value.toLowerCase();
+    {#const acceptanceFilter = document.getElementById('acceptanceFilter').value;#}
+    const searchFilter = document.getElementById('search').value.toLowerCase();
+
+    const rows = Array.from(document.querySelectorAll('#problemTable tr'));
+    let visibleRows = [];
+
+    // Apply filters
+    rows.forEach(row => {
+        const type = row.getAttribute('data-type');
+        const difficulty = row.getAttribute('data-difficulty');
+        const acceptance = parseFloat(row.getAttribute('data-acceptance'));
+        const title = row.cells[1].textContent.toLowerCase();
+
+        const typeMatch = typeFilter ? type === typeFilter : true;
+        const difficultyMatch = difficultyFilter ? difficulty === difficultyFilter : true;
+        {#const acceptanceMatch = acceptanceFilter ? (acceptance >= parseInt(acceptanceFilter.split('-')[0]) && acceptance <= parseInt(acceptanceFilter.split('-')[1])) : true;#}
+        const titleMatch = title.includes(searchFilter);
+
+        if (typeMatch && difficultyMatch && titleMatch) {
+            visibleRows.push(row);  // Add to the list of rows that match filters
+        } else {
+            row.style.display = 'none'; // Hide row
+        }
+    });
+
+    // Update Pagination with Filtered Rows
+    updatePagination(visibleRows);
+}
+
+// Function to Display a Page of Rows (for Pagination)
+function displayTablePage(rows) {
+    const totalRows = rows.length;
+    const totalPages = Math.max(1, Math.ceil(totalRows / rowsPerPage)); // Ensure at least 1 page
+    currentPage = Math.min(currentPage, totalPages); // Keep currentPage within totalPages range
+
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    // Display only rows for the current page
+    rows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? '' : 'none';
+    });
+
+    // Update page indicator and button states
+    document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${totalPages}`;
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === totalPages || totalRows === 0;
+}
+
+// Function to Change Page
+function changePage(direction, visibleRows) {
+    currentPage += direction;
+    displayTablePage(visibleRows);
+}
+
+// Function to Update Pagination with Filtered Rows
+function updatePagination(visibleRows) {
+    currentPage = 1; // Reset to first page after filtering
+    displayTablePage(visibleRows); // Display filtered rows on the first page
+
+    // Update changePage buttons to pass visibleRows
+    document.getElementById('prevPage').onclick = () => changePage(-1, visibleRows);
+    document.getElementById('nextPage').onclick = () => changePage(1, visibleRows);
+}
+
+// Initial Setup: Display the First Page
+document.addEventListener('DOMContentLoaded', () => {
+    filterTable(); // Initial filter and display
+});
+
+// Event listeners for Filters
+document.querySelectorAll('.radio-button').forEach(button => {
+    button.addEventListener('click', () => {
+        document.querySelectorAll('.radio-button').forEach(btn => btn.classList.remove('selected'));
+        button.classList.add('selected');
+        filterTable();
+    });
+});
+document.getElementById('difficultyFilter').addEventListener('change', filterTable);
+{#document.getElementById('acceptanceFilter').addEventListener('change', filterTable);#}
+document.getElementById('search').addEventListener('input', filterTable);
+
+</script>
+
+ <script>
+   function toggleDropdown() {
+       const dropdownMenu = document.getElementById("dropdownMenu");
+       dropdownMenu.classList.toggle("hidden");
+   }
+
+   // Close dropdown when clicking outside
+   window.onclick = function(event) {
+       const dropdownMenu = document.getElementById("dropdownMenu");
+       if (!event.target.matches('img') && !event.target.matches('#dropdownMenu a')) {
+           dropdownMenu.classList.add("hidden");
+       }
+   };
+ </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"/>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <title>Register & Login</title>
+    <style>
+    .error_r{
+   visibility:hidden;
+}
+        .py-24 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+        @media (min-width: 768px) {
+    .md\:text-left {
+        text-align: CENTER !important;
+    }
+}
+        @media (min-width: 1024px) {
+    .lg\:w-1\/6 {
+        width: 100% !important;
+    }
+}
+        .tracking-widest {
+    letter-spacing: .1em;
+    font-size: large;
+    padding-bottom: 1rem;
+}
+        @media (min-width: 768px) {
+    .md\:justify-start {
+        justify-content: center !important;
+    }
+}
+@media (min-width: 1024px) {
+    .lg\:ml-auto {
+        margin: auto !important;
+    }
+}
+.error_r{
+        visibility:hidden;
+   }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="text-gray-700 body-font border-b border-gray-200">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="/">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl">DSQuest</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="#explore" class="mr-5 hover:text-gray-900">Explore</a>
+<!--                <a href="#practice" class="mr-5 hover:text-gray-900">Practice</a>-->
+                <a href="#upgrade" class="mr-5 hover:text-gray-900">Plans</a>
+            </nav>
+
+
+            <!--<button class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">
+                Home
+            </button>-->
+        </div>
+    </header>
+    <!-- Login/Register Form -->
+    <section class="bg-gray-100 body-font relative">
+        <div class="container mx-auto flex flex-col items-center justify-center min-h-screen py-6">
+            <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+                <!-- Tabs for Toggle -->
+                <div class="flex justify-around mb-6">
+                    <button id="login-tab" class="text-gray-600 font-bold py-2 w-1/2 focus:outline-none" onclick="showLogin()">
+                        Login
+                    </button>
+                    <button id="register-tab" class="text-gray-600 font-bold py-2 w-1/2 focus:outline-none" onclick="showRegister()">
+                        Register
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-form" class="form-section">
+                    <h2 class="text-2xl font-bold text-indigo-600 mb-5 text-center">Login</h2>
+                    <form method="POST" id="multiform">
+                        <div class="mb-4">
+                            <p style="color: red;font-size: 0.75rem;" id="lb_login_username" class="error_r"></p>
+                            <label for="loginEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="loginEmail" name="loginEmail" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Your Email">
+                        </div>
+                        <div class="mb-4">
+                            <p style="color: red;font-size: 0.75rem;" id="lb_login_password" class="error_r"></p>
+                            <label for="loginPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="loginPassword" name="loginPassword" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Password">
+                        </div>
+                        <p style="color: red;" {{invalid_msg}}>Invalid Gmail/Password</p>
+                        <p style="color: red;" {{access_name}}>Please Enter Gmail</p>
+                        <p style="color: red;" {{access_pass}}>Please Enter Password</p>
+<!--                        <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700" id="logn_btn">Login</button>-->
+                        <input type="button" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700" id="register_btn2" value="Login" />
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-form" class="form-section hidden">
+                    <h2 class="text-2xl font-bold text-indigo-600 mb-5 text-center">Register</h2>
+                    <form method="POST" id="registerForm">
+                        <div class="mb-4">
+
+                            <label for="registerName" class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" id="registerName" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Your Name">
+                            <p style="color: red;font-size: 0.75rem;" id="lb_Username" class="error_r"></p>
+                        </div>
+                        <div class="mb-4">
+
+                            <label for="registerEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="registerEmail" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Your Email">
+                            <p style="color: red;font-size: 0.75rem;" id="lb_email" class="error_r"></p>
+                        </div>
+                        <div class="mb-4">
+
+                            <label for="registerPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="registerPassword" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="Password">
+                            <p style="color: red;font-size: 0.75rem;" id="lb_password" class="error_r"></p>
+                        </div>
+                        <div class="mb-4">
+
+                            <label for="rconfirmPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="rconfirmPassword" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" placeholder="confirm Password">
+                            <p style="color: red;font-size: 0.75rem;" id="lb_conf_password" class="error_r"></p>
+                        </div>
+                         <div class="mb-4">
+                            <input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" id="checkbox">
+                             <span class="ml-2 text-sm text-gray-700" style="position: absolute;margin-top: -1px;">Enable Multi Factor Authentication</span>
+                        </div>
+                         <div class="g-recaptcha" data-sitekey="6Lf6jocqAAAAAOH4K4xC_hP7NGIxOXBPeEEh09xn" data-callback="enableRegister"></div>
+                        <br/>
+<!--                        <button id="register_btn" type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700" disabled="disabled">Register</button>-->
+                        <input type="button" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700" id="register_btn" value="Register" disabled="disabled"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-gray-700 body-font">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
+            <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+              <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">Useful Links</h2>
+              <nav class="list-none mb-10">
+                <ul class="flex space-x-4 justify-center md:justify-start">
+                  <li>
+                    <a class="text-gray-600 hover:text-gray-800">Help Center</a>
+                  </li>
+                  <li>
+                    <a class="text-gray-600 hover:text-gray-800">Students</a>
+                  </li>
+                  <li>
+                    <a class="text-gray-600 hover:text-gray-800">Terms</a>
+                  </li>
+                  <li>
+                    <a class="text-gray-600 hover:text-gray-800">Privacy Policy</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+           <div class="border-t border-gray-200">
+          <div class="container px-5 py-8 flex flex-wrap mx-auto items-center">
+            <!-- <div class="flex md:flex-no-wrap flex-wrap justify-center md:justify-start">
+              <input class="sm:w-64 w-40 bg-gray-100 rounded sm:mr-4 mr-2 border border-gray-400 focus:outline-none focus:border-indigo-500 text-base py-2 px-4" placeholder="Placeholder" type="text">
+              <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
+              <p class="text-gray-500 text-sm md:ml-6 md:mt-0 mt-2 sm:text-left text-center">Bitters chicharrones fanny pack
+                <br class="lg:block hidden">waistcoat green juice
+              </p>
+            </div> -->
+            <span class="inline-flex lg:ml-auto lg:mt-0 mt-6 w-full justify-center md:justify-start md:w-auto">
+              <a class="text-gray-500">
+                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                </svg>
+              </a>
+              <a class="ml-3 text-gray-500">
+                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                </svg>
+              </a>
+              <a class="ml-3 text-gray-500">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                </svg>
+              </a>
+              <a class="ml-3 text-gray-500">
+                <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                  <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                  <circle cx="4" cy="4" r="2" stroke="none"></circle>
+                </svg>
+              </a>
+            </span>
+          </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Tab Toggle -->
+    <script src="/static/js/vendor/jquery-3.3.1.min.js"></script>
+  {#
+  <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  #}
+  <script src="/static/js/jquery-ui.min.js"></script>
+  <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+  <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js"></script>
+    <script>
+        const loginForm = document.getElementById("login-form");
+        const registerForm = document.getElementById("register-form");
+        const loginTab = document.getElementById("login-tab");
+        const registerTab = document.getElementById("register-tab");
+
+        function showLogin() {
+            loginForm.classList.remove("hidden");
+            registerForm.classList.add("hidden");
+            loginTab.classList.add("border-b-2", "border-indigo-600", "text-indigo-600");
+            registerTab.classList.remove("border-b-2", "border-indigo-600", "text-indigo-600");
+        }
+
+        function showRegister() {
+            registerForm.classList.remove("hidden");
+            loginForm.classList.add("hidden");
+            registerTab.classList.add("border-b-2", "border-indigo-600", "text-indigo-600");
+            loginTab.classList.remove("border-b-2", "border-indigo-600", "text-indigo-600");
+        }
+
+        // Set initial view to Login
+        showLogin();
+
+
+        function enableRegister(){
+            document.getElementById("register_btn").disabled = false;
+        }
+    </script>
+     <script>
+        document.getElementById("register_btn").addEventListener("click", init_register);
+      </script>
+ <script>
+        document.getElementById("register_btn2").addEventListener("click", init_file);
+      </script>
+</body>
+</html>

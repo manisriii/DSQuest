@@ -1,0 +1,140 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    width: 70%;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Section */
+.title-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.title-section h1 {
+    font-size: 1.8em;
+    color: #333;
+}
+
+.difficulty {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.companies {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Description Section */
+.description-section {
+    margin-top: 20px;
+}
+
+.description-section h2 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.description-section p {
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Example Section */
+.example-section {
+    margin-top: 20px;
+}
+
+.example-section h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.example-box {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+}
+
+.example-box code {
+    background-color: #e8e8e8;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.95em;
+    color: #c7254e;
+}
+
+.example-box pre {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Info Section */
+.info-section {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+    display: flex;
+    flex-direction: column;
+}
+
+.additional-links a {
+    color: #0073e6;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.additional-links a:hover {
+    text-decoration: underline;
+}
+
+/* Hint Section */
+.hint-section {
+    margin-top: 20px;
+}
+
+.hint-toggle {
+    color: #0073e6;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#hint {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 3px solid #0073e6;
+    margin-top: 10px;
+    border-radius: 5px;
+    color: #333;
+}

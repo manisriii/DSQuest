@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900" />
+    <title>Payment Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"/>
+    <style>
+        {#body {#}
+        {#    background-color: #f3f4f6;#}
+        {#    font-family: 'Arial', sans-serif;#}
+        {#}#}
+        {#.card-form {#}
+        {#    display: flex;#}
+        {#    flex-direction: column;#}
+        {#    align-items: center;#}
+        {#    justify-content: center;#}
+        {#    min-height: 100vh;#}
+        {#    padding: 20px;#}
+        {#}#}
+        .card-form {
+            max-width: 570px;
+            margin: auto;
+            width: 100%;
+        }
+        {#.card-item {#}
+        {#    width: 320px;#}
+        {#    height: 190px;#}
+        {#    border-radius: 12px;#}
+        {#    background-color: #2c3e50;#}
+        {#    color: white;#}
+        {#    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);#}
+        {#    transform-style: preserve-3d;#}
+        {#    transform: rotateY(0deg);#}
+        {#    transition: transform 0.6s ease;#}
+        {#}#}
+
+        .card-item {
+            max-width: 430px;
+            height: 270px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+       .card-item.-active .card-item__side.-front {
+  transform: perspective(1000px) rotateY(180deg) rotateX(0deg) rotateZ(0deg);
+}
+.card-item.-active .card-item__side.-back {
+  transform: perspective(1000px) rotateY(0) rotateX(0deg) rotateZ(0deg);
+}
+        {#.card-item__side {#}
+        {#    position: absolute;#}
+        {#    width: 100%;#}
+        {#    height: 100%;#}
+        {#    backface-visibility: hidden;#}
+        {#    border-radius: 12px;#}
+        {#    overflow: hidden;#}
+        {#}#}
+
+        .card-item__side {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
+            transform: perspective(2000px) rotateY(0deg) rotateX(0deg) rotate(0deg);
+            transform-style: preserve-3d;
+            transition: all 0.8s cubic-bezier(0.71, 0.03, 0.56, 0.85);
+            backface-visibility: hidden;
+            height: 100%;
+        }
+        .card-item__side.-front {
+            background-color: #2c3e50;
+        }
+        .card-item__side.-back {
+            background-color: #34495e;
+            transform: rotateY(180deg);
+        }
+        {#.card-item__top {#}
+        {#    display: flex;#}
+        {#    justify-content: space-between;#}
+        {#    padding: 15px;#}
+        {#}#}
+
+        .card-item__top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+        .card-item__chip {
+            width: 40px;
+        }
+        {#.card-item__number {#}
+        {#    font-size: 1.25rem;#}
+        {#    letter-spacing: 2px;#}
+        {#    padding: 10px 15px;#}
+        {#    text-align: center;#}
+        {#}#}
+        .error_r{
+   visibility:hidden;
+}
+
+        .card-item__number {
+    font-weight: 500;
+    line-height: 1;
+    color: #fff;
+    font-size: 27px;
+    margin-bottom: 35px;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+        {#.card-item__content {#}
+        {#    display: flex;#}
+        {#    justify-content: space-between;#}
+        {#    padding: 15px;#}
+        {#    font-size: 0.9rem;#}
+        {#}#}
+        .card-item__content {
+    color: #fff;
+    display: flex;
+    align-items: flex-start;
+}
+        {#.card-item__date {#}
+        {#    display: flex;#}
+        {#    align-items: center;#}
+        {#}#}
+
+        .card-item__date {
+    flex-wrap: wrap;
+    font-size: 18px;
+    margin-left: auto;
+    padding: 10px;
+    display: inline-flex;
+    width: 80px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+        .card-item__cvv {
+            padding: 15px;
+            color: #ecf0f1;
+            font-size: 0.9rem;
+        }
+        {#.card-form__inner {#}
+        {#    margin-top: 20px;#}
+        {#    width: 320px;#}
+        {#}#}
+        .card-form__inner {
+    background: #fff;
+    box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
+    border-radius: 10px;
+    padding: 35px;
+    padding-top: 180px;
+}
+        {#.card-input__label {#}
+        {#    display: block;#}
+        {#    font-weight: 500;#}
+        {#    margin-bottom: 8px;#}
+        {#    color: #333;#}
+        {#}#}
+
+        .card-input__label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #1a3b5d;
+            width: 100%;
+            display: block;
+            user-select: none;
+        }
+        {#.card-input__input {#}
+        {#    width: 100%;#}
+        {#    padding: 10px;#}
+        {#    border-radius: 5px;#}
+        {#    border: 1px solid #ddd;#}
+        {#    margin-bottom: 15px;#}
+        {#    outline: none;#}
+        {#}#}
+        .card-input__input {
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    box-shadow: none;
+    border: 1px solid #ced6e0;
+    transition: all 0.3s ease-in-out;
+    font-size: 18px;
+    padding: 5px 15px;
+    background: none;
+    color: #1a3b5d;
+    font-family: "Source Sans Pro", sans-serif;
+}
+        .card-input__input:focus {
+            border-color: #3b82f6;
+        }
+        .card-form__button {
+            background-color: #3b82f6;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .card-form__button:hover {
+            background-color: #2563eb;
+        }
+
+        @media screen and (max-width: 700px), (max-height: 500px) {
+    .wrapper {
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+}
+        section {
+    padding: 0 !important;
+}
+        .wrapper {
+    min-height: 100vh;
+    display: flex;
+    padding: 50px 15px;
+}
+        * {
+    box-sizing: border-box;
+}
+        .card-list {
+    margin-bottom: -130px;
+}
+
+        .card-item__focus {
+    position: absolute;
+    z-index: 3;
+    border-radius: 5px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.35s cubic-bezier(0.71, 0.03, 0.56, 0.85);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.65);
+}
+
+        .card-item__focus:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #08142f;
+    height: 100%;
+    border-radius: 5px;
+    filter: blur(25px);
+    opacity: 0.5;
+}
+        .card-item__cover {
+            height: 100%;
+            background-color: #1c1d27;
+            position: absolute;
+            height: 100%;
+            background-color: #1c1d27;
+            left: 0;
+            top: 0;
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .card-item__cover:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 2, 29, 0.45);
+        }
+
+        .card-item__wrapper {
+            font-family: "Source Code Pro", monospace;
+            padding: 25px 15px;
+            position: relative;
+            z-index: 4;
+            height: 100%;
+            text-shadow: 7px 6px 10px rgba(14, 42, 90, 0.8);
+            user-select: none;
+        }
+
+        .card-item__type {
+            height: 45px;
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            max-width: 100px;
+            margin-left: auto;
+            width: 100%;
+        }
+
+        .card-item__typeImg {
+            max-width: 100%;
+            object-fit: contain;
+            max-height: 100%;
+            object-position: top right;
+        }
+
+        .card-item__bg {
+            max-width: 100%;
+            display: block;
+            max-height: 100%;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        .card-item__chip {
+            width: 60px;
+        }
+        .card-item__info {
+            color: #fff;
+            width: 100%;
+            max-width: calc(100% - 85px);
+            padding: 10px 15px;
+            font-weight: 500;
+            display: block;
+            cursor: pointer;
+        }
+        .card-item__holder {
+            opacity: 0.7;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        .card-item__name {
+            font-size: 18px;
+            line-height: 1;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+        }
+        .card-item__dateTitle {
+            opacity: 0.7;
+            font-size: 13px;
+            padding-bottom: 6px;
+            width: 100%;
+        }
+        .card-item__dateItem {
+            position: relative;
+        }
+        .card-item__dateItem span {
+            width: 22px;
+            display: inline-block;
+        }
+        .card-item__numberItem {
+            width: 16px;
+            display: inline-block;
+        }
+        .card-item__side.-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: perspective(2000px) rotateY(-180deg) rotateX(0deg) rotate(0deg);
+            z-index: 2;
+            padding: 0;
+            height: 100%;
+        }
+
+        .card-item__cvv {
+            padding: 15px;
+            color: #ecf0f1;
+            font-size: 0.9rem;
+        }
+
+        .card-item__side.-back .card-item__cover {
+    transform: rotateY(-180deg);
+}
+        .card-item__cover {
+    height: 100%;
+    background-color: #1c1d27;
+    position: absolute;
+    height: 100%;
+    background-color: #1c1d27;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.card-item__cover:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 2, 29, 0.45);
+}
+
+.card-item__band {
+    background: rgba(0, 0, 19, 0.8);
+    width: 100%;
+    height: 50px;
+    margin-top: 30px;
+    position: relative;
+    z-index: 2;
+}
+.card-item__cvv {
+    text-align: right;
+    position: relative;
+    z-index: 2;
+    padding: 15px;
+}
+.card-item__cvvTitle {
+    padding-right: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 5px;
+}
+.card-item__cvvBand {
+    height: 45px;
+    background: #fff;
+    margin-bottom: 30px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: #1a3b5d;
+    font-size: 18px;
+    border-radius: 4px;
+    box-shadow: 0px 10px 20px -7px rgba(32, 56, 117, 0.35);
+}
+.card-item__cvv .card-item__type {
+    opacity: 0.7;
+}
+
+.card-input {
+    margin-bottom: 20px;
+}
+.card-form__row {
+    display: flex;
+    align-items: flex-start;
+}
+.card-form__col {
+    flex: auto;
+    margin-right: 35px;
+}
+
+.card-form__group {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.card-input__input.-select {
+    -webkit-appearance: none;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUxJREFUeNrM1sEJwkAQBdCsngXPHsQO9O5FS7AAMVYgdqAd2IGCDWgFnryLFQiCZ8EGnJUNimiyM/tnk4HNEAg/8y6ZmMRVqz9eUJvRaSbvutCZ347bXVJy/ZnvTmdJ862Me+hAbZCTs6GHpyUi1tTSvPnqTpoWZPUa7W7ncT3vK4h4zVejy8QzM3WhVUO8ykI6jOxoGA4ig3BLHcNFSCGqGAkig2yqgpEiMsjSfY9LxYQg7L6r0X6wS29YJiYQYecemY+wHrXD1+bklGhpAhBDeu/JfIVGxaAQ9sb8CI+CQSJ+QmJg0Ii/EE2MBiIXooHRQhRCkBhNhBcEhLkwf05ZCG8ICCOpk0MULmvDSY2M8UawIRExLIQIEgHDRoghihgRIgiigBEjgiFATBACAgFgghEwSAAGgoBCBBgYAg5hYKAIFYgHBo6w9RRgAFfy160QuV8NAAAAAElFTkSuQmCC);
+    background-size: 12px;
+    background-position: 90% center;
+    background-repeat: no-repeat;
+    padding-right: 30px;
+    margin-bottom: 25px;
+}
+.card-form__group .card-input__input:last-child {
+    margin-right: 0;
+}
+.card-form__col.-cvv {
+    max-width: 150px;
+    display: grid;
+    gap: 10px;
+}
+.card-form__group {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between the month and year fields */
+}
+
+.card-form__group select {
+    flex: 1; /* Makes both dropdowns take equal width */
+}
+
+.card-item__focus {
+    opacity: 0; /* Default state: hidden */
+    transition: opacity 0.3s ease;
+}
+
+.card-item__focus.-active {
+  opacity: 1;
+}
+
+.py-24 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+@media (min-width: 768px) {
+    .md\:text-left {
+        text-align: CENTER !important;
+    }
+}
+        @media (min-width: 1024px) {
+    .lg\:w-1\/6 {
+        width: 100% !important;
+    }
+}
+        .tracking-widest {
+    letter-spacing: .1em;
+    font-size: large;
+    padding-bottom: 1rem;
+}
+        @media (min-width: 768px) {
+    .md\:justify-start {
+        justify-content: center !important;
+    }
+}
+        @media (min-width: 1024px) {
+    .lg\:ml-auto {
+        margin: auto !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header class="text-gray-700 body-font border-b border-gray-200">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="/">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl">DSQuest</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="/" class="mr-5 hover:text-gray-900">Explore</a>
+                <a href="/problemQuestions" class="mr-5 hover:text-gray-900">Practice</a>
+                <a href="payment_plan" class="mr-5 hover:text-gray-900">Upgrade</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="bg-gray-100 body-font relative">
+        <input type="hidden" name="price_selected" id="price_selected" value="{{price}}">
+        <input type="hidden" name="type_of_subscription" id="type_of_subscription" value="{{type}}">
+        <div class="wrapper" id="app">
+            <div class="card-form">
+                <div class="card-list">
+                    <div class="card-item" id="card">
+                        <div class="card-item__side -front">
+                            <div class="card-item__focus" style=""></div>
+                            <div class="card-item__cover">
+                                <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/2.jpeg" class="card-item__bg">
+                            </div>
+                            <div class="card-item__wrapper">
+                                <div class="card-item__top">
+                                    <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png" class="card-item__chip">
+                                    <div class="card-item__type">
+                                        <img id="card-type" src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png" alt="" class="card-item__typeImg">
+                                    </div>
+                                </div>
+                                <label for="cardNumber" class="card-item__number" id="cardNumberDisplay">
+                                    #### #### #### ####
+                                </label>
+                                <!--<label for="cardNumber" class="card-item__number">
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem -active"> </div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem -active"> </div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem -active"> </div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span>
+                                    <span><div class="card-item__numberItem">#</div></span></label>-->
+                                <div class="card-item__content">
+                                    <label for="cardName" class="card-item__info">
+                                        <div class="card-item__holder">Card Holder</div>
+                                        <div class="card-item__name" id="cardNameDisplay">Full Name</div>
+                                    </label>
+                                    <div class="card-item__date">
+                                        <label for="cardMonth" class="card-item__dateTitle">Expires</label>
+                                        <label for="cardMonth" id="cardMonthDisplay" class="card-item__dateItem"><span>MM</span></label> /
+                                        <label for="cardYear" id="cardYearDisplay" class="card-item__dateItem"><span>YY</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-item__side -back">
+                            <div class="card-item__cover">
+                                <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/13.jpeg" class="card-item__bg">
+                            </div>
+                            <div class="card-item__band"></div>
+                            <div class="card-item__cvv">
+                                <div class="card-item__cvvTitle">CVV</div>
+                                <div id="cardCvvDisplay" class="card-item__cvvBand">***</div>
+                                <div class="card-item__type">
+                                    <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png" class="card-item__typeImg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-form__inner">
+                    <div class="card-input" style="display: flex;">
+<!--                        <input type="hidden" name="price_selected" value="{{price}}">-->
+<!--                        <input type="hidden" name="type_of_subscription" value="{{type}}">-->
+                        <div style="width: 50%;">
+                            <label for="cardNumber" class="card-input__label">selected Amount</label>
+                        <label for="cardNumber" class="card-input__label" style="color: red;">{{price}}</label>
+                        </div>
+                        <div>
+                            <label for="cardNumber" class="card-input__label">Type Of  Subscription</label>
+                        <label for="cardNumber" class="card-input__label" style="color: red;">{{type}}</label>
+                        </div>
+
+                    </div>
+                    <div class="card-input">
+                        <label for="cardNumber" class="card-input__label">Card Number</label>
+                        <input type="text" id="cardNumber" name="cardNumber" class="card-input__input" maxlength="19" oninput="updateCardNumber()" placeholder="#### #### #### ####" autocomplete="off" onfocus="focusInput()" onblur="blurInput()">
+                    </div>
+                    <div class="card-input">
+                        <label for="cardName" class="card-input__label">Card Holder</label>
+                        <input type="text" id="cardName"  name="cardName" class="card-input__input" maxlength="50" oninput="updateCardHolder()">
+                    </div>
+                    <div class="card-form__row">
+                        <div class="card-form__col">
+                            <div class="card-form__group">
+                                <label for="cardMonth" class="card-input__label">Expiration Date</label>
+                                <select id="cardMonth" name="cardMonth" data-ref="cardDate" class="card-input__input -select" onchange="updateCardExpiry()">
+                                    <option value="" disabled="disabled" selected="selected">Month</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <select id="cardYear" name="cardYear" data-ref="cardDate" class="card-input__input -select" onchange="updateCardExpiry()">
+                                    <option value="" disabled="disabled" selected="selected">Year</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2031">2031</option>
+                                    <option value="2032">2032</option>
+                                    <option value="2033">2033</option>
+                                    <option value="2034">2034</option>
+                                    <option value="2035">2035</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-form__col -cvv">
+                            <label for="cardCvv" class="card-input__label">CVV</label>
+                            <input type="text" id="cardCvv" name="cardCvv" class="card-input__input" maxlength="4" onfocus="flipCard(true)" onblur="flipCard(false)" oninput="updateCardCvv()">
+                        </div>
+                    </div>
+                    <p style="color: red;text-align: center;font-size: 0.95rem;font-weight: bold;margin-bottom: 7px;" id="erroe_in_card" class="error_r"></p>
+                    <button class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700" onclick="payment_submission()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-gray-700 body-font">
+            <div class="container px-5 py-24 mx-auto">
+              <div class="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                  <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">Useful Links</h2>
+                  <nav class="list-none mb-10">
+                    <ul class="flex space-x-4 justify-center md:justify-start">
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Help Center</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Students</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Terms</a>
+                      </li>
+                      <li>
+                        <a class="text-gray-600 hover:text-gray-800">Privacy Policy</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+               <div class="border-t border-gray-200">
+              <div class="container px-5 py-8 flex flex-wrap mx-auto items-center">
+                <!-- <div class="flex md:flex-no-wrap flex-wrap justify-center md:justify-start">
+                  <input class="sm:w-64 w-40 bg-gray-100 rounded sm:mr-4 mr-2 border border-gray-400 focus:outline-none focus:border-indigo-500 text-base py-2 px-4" placeholder="Placeholder" type="text">
+                  <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
+                  <p class="text-gray-500 text-sm md:ml-6 md:mt-0 mt-2 sm:text-left text-center">Bitters chicharrones fanny pack
+                    <br class="lg:block hidden">waistcoat green juice
+                  </p>
+                </div> -->
+                <span class="inline-flex lg:ml-auto lg:mt-0 mt-6 w-full justify-center md:justify-start md:w-auto">
+                  <a class="text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                    </svg>
+                  </a>
+                  <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                      <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                      <circle cx="4" cy="4" r="2" stroke="none"></circle>
+                    </svg>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </footer>
+
+
+    <!-- JavaScript for Tab Toggle -->
+    <script src="/static/js/vendor/jquery-3.3.1.min.js"></script>
+  {#
+  <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  #}
+  <script src="/static/js/jquery-ui.min.js"></script>
+  <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+  <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js"></script>
+
+    <script>
+
+   function updateCardNumber() {
+    // Get the raw value and remove any non-numeric characters
+    let cardNumberInput = document.getElementById("cardNumber").value.replace(/\D/g, '');
+
+    // Limit to 16 characters
+    if (cardNumberInput.length > 19) {
+        cardNumberInput = cardNumberInput.slice(0, 19);
+    }
+
+    // Apply masking: add space after every 4 digits for readability
+    const formattedCardNumber = cardNumberInput.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+    // Display the formatted card number in the input
+    document.getElementById("cardNumber").value = formattedCardNumber;
+
+    // Update the display on the card, masking digits 5-12
+    const maskedNumber = cardNumberInput
+        .padEnd(16, '#') // Fill in with '#' for unentered digits
+        .split('')
+        .map((digit, index) => {
+            if (index >= 4 && index < 12) {
+                return digit === '#' ? '#' : '*'; // Mask digits 5-12 if entered, else show '#'
+            }
+            return digit;
+        })
+        .join('')
+        .replace(/(.{4})(.{4})(.{4})(.{4})/, '$1 $2 $3 $4'); // Format with spaces
+
+    document.getElementById("cardNumberDisplay").innerText = maskedNumber;
+}
+
+
+
+
+
+
+
+        function updateCardHolder() {
+            const cardName = document.getElementById("cardName").value;
+            document.getElementById("cardNameDisplay").innerText = cardName || "Full Name";
+        }
+
+        function updateCardExpiry() {
+            const cardMonth = document.getElementById("cardMonth").value;
+            const cardYear = document.getElementById("cardYear").value;
+            document.getElementById("cardMonthDisplay").innerText = cardMonth || "MM";
+            document.getElementById("cardYearDisplay").innerText = cardYear ? cardYear.slice(-2) : "YY";
+        }
+
+        function updateCardCvv() {
+            const cardCvv = document.getElementById("cardCvv").value;
+            document.getElementById("cardCvvDisplay").innerText = "*".repeat(cardCvv.length);
+        }
+
+        function flipCard(flip) {
+            document.getElementById("card").classList.toggle("-active", flip);
+        }
+
+        function submitForm() {
+            alert("Payment submitted!");
+        }
+
+const cardNumberInput = document.getElementById("cardNumber");
+
+function focusInput() {
+    cardNumberInput.classList.add("focused"); // You can style this class if needed
+}
+
+function blurInput() {
+    cardNumberInput.classList.remove("focused");
+}
+
+    </script>
+
+</body>
+</html>

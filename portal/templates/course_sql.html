@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"/>
+    <title>SQL Server Tutorial</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f7fafc;
+        }
+        /* Fixed Header Styling */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        /* Sidebar Styling */
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 60px; /* Adjusted for fixed header */
+            left: 0;
+            background-color: #f7fafc;
+            padding-top: 20px;
+            border-right: 1px solid #e2e8f0;
+        }
+      /*  .sidebar a {
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #4a5568; /* Gray-700 */
+           /* display: block;
+            transition: background 0.3s, color 0.3s;
+        }
+        .sidebar a:hover, .active-link {
+            /*background-color: #e2e8f0; /* Gray-200 */
+          /*  color: #2d3748; /* Gray-800 */
+       /* }*/
+        /* Sidebar Tab Styling */
+        .sidebar a {
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #4a5568; /* Gray-700 */
+            display: block;
+            transition: background 0.3s, color 0.3s, border-left 0.3s;
+            border-left: 4px solid transparent; /* Add left border */
+        }
+
+        /* Differentiate each tab */
+        .sidebar a:not(.active-link):hover {
+            background-color: #e2e8f0; /* Light Gray on hover */
+            color: #2d3748; /* Darker Gray */
+        }
+
+        /* Active Tab Highlight */
+        .active-link {
+            background-color: #4c51bf; /* Indigo-600 */
+            color: #ffffff !important; /* White text */
+            border-left: 4px solid #2c5282; /* Darker Indigo border */
+        }
+
+        /* Sidebar Styling */
+.sidebar {
+    height: 88vh;
+    width: 250px;
+    position: fixed;
+    top: 60px; /* Adjusted for fixed header */
+    left: 0;
+    background-color: #f7fafc;
+    padding-top: 20px;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Adds space between tabs */
+}
+
+/* Sidebar Tab Styling */
+.sidebar a {
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500; /* Semi-bold for better visibility */
+    color: #4a5568; /* Gray-700 */
+    display: block;
+    transition: background 0.3s, color 0.3s, border-left 0.3s;
+    border-left: 4px solid transparent; /* Left border for active state */
+    border-bottom: 1px solid #e2e8f0; /* Separator line between tabs */
+}
+
+/* Hover Effect for Tabs */
+.sidebar a:not(.active-link):hover {
+    background-color: #e2e8f0; /* Light Gray on hover */
+    color: #2d3748; /* Darker Gray */
+}
+
+/* Active Tab Styling */
+.active-link {
+    background-color: #4c51bf; /* Indigo-600 */
+    color: #ffffff; /* White text */
+    border-left: 4px solid #2c5282; /* Darker Indigo border */
+    font-weight: 600; /* Bold font for active tab */
+}
+
+
+
+
+        /* Main Content Styling */
+        .content {
+            margin-left: 250px;
+            margin-top: 100px; /* Space for fixed header */
+            padding: 35px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .module-card {
+            background-color: #f7fafc; /* Light Gray */
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        .hidden-content {
+            display: none;
+        }
+        .active-content {
+            display: block;
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0; /* Gray-200 */
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 8px;
+            background-color: #4c51bf; /* Indigo-600 */
+            transition: width 0.3s;
+        }
+        .px-5 {
+            padding-left: 17rem !important;
+            padding-right: 1.25rem;
+        }
+        .sidebar {
+            overflow: scroll;
+            top: 82px !important;
+        }
+        .content {
+            height: calc(100vh - 100px); /* Full height minus header */
+            overflow-y: auto; /* Enables scrolling */
+            margin-top: 30px;
+        }
+        .content {
+            overflow: scroll; /* Prevents scrolling for the container itself */
+            display: flex;
+            scrollbar-width: none;
+            flex-direction: column;
+        }
+
+        .module-card {
+            flex-grow: 1; /* Makes the module content expand to fill available space */
+            height: calc(100vh - 150px);
+            overflow-y: auto; /* Enables scrolling within the module content */
+        }
+         .code-block {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-left: 4px solid #4c51bf; /* Indigo border for the code block */
+            font-family: monospace;
+            color: #1f2937; /* Gray-900 */
+             font-size: 1.2rem;
+        }
+        .highlighted-text {
+            background-color: #f3f4f6;
+            color: #ff3232;
+            padding: 0.1rem 0.25rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .text-sm {
+            font-size: 1.1rem !important;
+            line-height: 1.25rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Fixed Header -->
+    <header class="header text-gray-700 body-font">
+        <div class="container1 mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl">DSQuest</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="/" id="Explore" class="mr-5 hover:text-gray-900">Explore</a>
+                <a href="/problemQuestions" id="Practice" class="mr-5 hover:text-gray-900">Practice</a>
+                <a href="/payment_plan" id="Upgrade" class="mr-5 hover:text-gray-900">Upgrade</a>
+            </nav>
+            <!-- Profile Picture with Dropdown -->
+             <div class="relative">
+                <button onclick="toggleDropdown()" class="focus:outline-none">
+                    <img src="/static/images/avatar.png" alt="Profile Picture" class="w-10 h-10 rounded-full">
+                </button>
+                <!-- Dropdown Menu -->
+                <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
+                    <!--<a href="#profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+                    <a href="#settings" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>-->
+                    <a href="/logout" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Sign Out</a>
+                </div>
+             </div>
+        </div>
+    </header>
+
+    <!-- Progress Bar below Header -->
+    <div class="container mx-auto mt-24 px-5">
+        <div class="flex items-center space-x-4">
+            <span>Progress:</span>
+            <div class="progress-bar w-full bg-gray-200">
+                <div id="progress-bar" class="progress" style="width: 0%;"></div>
+            </div>
+
+            <span id="progress-percentage">0%</span>
+            <input type="hidden" name="courses_status_id" id="courses_status_id"  value="{{courses_status_id}}">
+            <input type="hidden" name="courses_id" id="courses_id"  value="{{courses_id}}">
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <!-- <div class="sidebar">
+        <h2 class="text-xl font-bold mb-4 text-center text-gray-700">Course Modules</h2>
+        <a href="#!" onclick="showContent('module1')" id="link-module1">Module 1: Basics</a>
+        <a href="#!" onclick="showContent('module2')" id="link-module2">Module 2: Intermediate</a>
+        <a href="#!" onclick="showContent('quiz1')" id="link-quiz1">Quiz: Module 1</a>
+    </div> -->
+    <div class="sidebar">
+        <h2 class="text-xl font-bold mb-4 text-center text-gray-700">SQL Tutorial</h2>
+        <a href="#" class="active-link" onclick="showContent('module1')" id="link-module1">SQL Home</a>
+        <a href="#" onclick="showContent('module2')" id="link-module2">SQL Intro</a>
+        <a href="#" onclick="showContent('module3')" id="link-module3">SQL Syntax</a>
+        <a href="#" onclick="showContent('module4')" id="link-module4">SQL Database Tables</a>
+        <a href="#" onclick="showContent('module5')" id="link-module5">SQL Select</a>
+        <a href="#" onclick="showContent('module6')" id="link-module6">SQL Select Distinct</a>
+        <a href="#" onclick="showContent('module7')" id="link-module7">SQL Where</a>
+        <a href="#" onclick="showContent('module8')" id="link-module8">SQL Order By</a>
+        <a href="#" onclick="showContent('module9')" id="link-module9">SQL And</a>
+        <a href="#" onclick="showContent('module10')" id="link-module10">SQL Or</a>
+        <a href="#" onclick="showContent('module11')" id="link-module11">SQL Not</a>
+        <h2 class="text-xl font-bold mb-4 text-center text-gray-700">SQL Database</h2>
+        <a href="#" onclick="showContent('module12')" id="link-module12">SQL Create DB</a>
+        <a href="#" onclick="showContent('module13')" id="link-module13">SQL Drop DB</a>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <!-- Module 1 Content -->
+        <div id="module1" class="hidden-content active-content">
+           <!-- <div class="module-card">-->
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Learn SQL Server</h1>
+                <p class="mb-4 text-lg text-gray-600">SQL is a standard language for storing, manipulating and retrieving data in databases.</p>
+                <p class="mb-4 text-lg text-gray-600">Our SQL tutorial will teach you how to use SQL in: MySQL, SQL Server, MS Access, Oracle, Sybase, Informix, Postgres, and other database systems.</p>
+                <ul class="list-disc pl-6 mb-4 text-gray-600">
+<!--                    <li class="mb-2">Learn Python</li>
+                    <li class="mb-2">Python is a popular programming language.</li>
+                    <li class="mb-2">Python can be used on a server to create web applications.</li>-->
+                </ul>
+                <button onclick="markComplete('module1')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Start Learning Now</button>
+            <!--</div>-->
+        </div>
+
+        <!-- Module 2 Content -->
+        <div id="module2" class="hidden-content">
+           <!-- <div class="module-card">-->
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">What is SQL?</h1>
+<!--               <p class="mb-4 text-lg text-gray-600">This module covers intermediate topics:</p>-->
+                <ul class="list-disc pl-6 mb-4 text-gray-600">
+                    <li class="mb-2">SQL stands for Structured Query Language</li>
+                    <li class="mb-2">SQL lets you access and manipulate databases</li>
+                    <li class="mb-2">SQL became a standard of the American National Standards Institute (ANSI) in 1986, and of the International Organization for Standardization (ISO) in 1987</li>
+                </ul>
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">What Can SQL do?</h1>
+<!--                <p class="mb-4 text-lg text-gray-600">This module covers intermediate topics:</p>-->
+                <ul class="list-disc pl-6 mb-4 text-gray-600">
+                    <li class="mb-2">SQL can execute queries against a database</li>
+                    <li class="mb-2">SQL can retrieve data from a database</li>
+                    <li class="mb-2">SQL can insert records in a database</li>
+                    <li class="mb-2">SQL can update records in a database</li>
+                    <li class="mb-2">SQL can delete records from a database</li>
+                    <li class="mb-2">SQL can create new databases</li>
+                    <li class="mb-2">SQL can create new tables in a database</li>
+                    <li class="mb-2">SQL can create stored procedures in a database</li>
+                    <li class="mb-2">SQL can create views in a database</li>
+                    <li class="mb-2">SQL can set permissions on tables, procedures, and views</li>
+                </ul>
+                <button onclick="markComplete('module2')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            <!--</div>-->
+        </div>
+
+         <!-- Module 3 Content -->
+        <div id="module3" class="hidden-content">
+          <!--  <div class="module-card">-->
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">SQL Statements</h1>
+                <p class="mb-4 text-lg text-gray-600">Most of the actions you need to perform on a database are done with SQL statements.</p>
+                <p class="mb-4 text-lg text-gray-600">SQL statements consist of keywords that are easy to understand.</p>
+                <p class="mb-4 text-lg text-gray-600">The following SQL statement returns all records from a table named "Customers":</p>
+
+                <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+
+                    </div>
+                    <p class="mb-4 text-lg text-gray-600">Select all records from the Customers table:</p>
+
+                    <!-- Code Block -->
+                    <div class="code-block">
+                        SELECT * FROM Customers;
+                    </div>
+                </div>
+                <!--<ul class="list-disc pl-6 mb-4 text-gray-600">
+                    <li class="mb-2">CSS Flexbox and Grid</li>
+                    <li class="mb-2">JavaScript DOM Manipulation</li>
+                    <li class="mb-2">Responsive Design Principles</li>
+                </ul>-->
+                <button onclick="markComplete('module3')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            <!--</div>-->
+        </div>
+
+         <!-- Module 4 Content -->
+        <div id="module4" class="hidden-content">
+            <!--<div class="module-card">-->
+                <h1 class="text-3xl font-semibold mb-4 text-gray-800">Database Tables</h1>
+                <p class="mb-4 text-lg text-gray-600">A database most often contains one or more tables. Each table is identified by a name (e.g. "Customers" or "Orders"), and contain records (rows) with data.</p>
+                <p class="mb-4 text-lg text-gray-600">In this tutorial we will use the well-known Northwind sample database (included in MS Access and MS SQL Server).</p>
+                <p class="mb-4 text-lg text-gray-600">Below is a selection from the Customers table used in the examples:</p>
+               <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                  <thead>
+                    <tr>
+                      <th class="px-6 py-3 border-b-2 border-gray-200 bg-indigo-500 text-white text-left text-sm font-semibold uppercase tracking-wider">CustomerID</th>
+                      <th class="px-6 py-3 border-b-2 border-gray-200 bg-indigo-500 text-white text-left text-sm font-semibold uppercase tracking-wider">CustomerName</th>
+                      <th class="px-6 py-3 border-b-2 border-gray-200 bg-indigo-500 text-white text-left text-sm font-semibold uppercase tracking-wider">ContactName</th>
+                      <th class="px-6 py-3 border-b-2 border-gray-200 bg-indigo-500 text-white text-left text-sm font-semibold uppercase tracking-wider">Address</th>
+                      <th class="px-6 py-3 border-b-2 border-gray-200 bg-indigo-500 text-white text-left text-sm font-semibold uppercase tracking-wider">City</th>
+                      <th class="px-6 py-3 border-b-2 border-gray-200 bg-indigo-500 text-white text-left text-sm font-semibold uppercase tracking-wider">PostalCode</th>
+                      <th class="px-6 py-3 border-b-2 border-gray-200 bg-indigo-500 text-white text-left text-sm font-semibold uppercase tracking-wider">Country</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-100">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Alfreds Futterkiste</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Maria Anders</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Obere Str. 57</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Berlin</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">12209</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Germany</td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Ana Trujillo Emparedados y helados</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Ana Trujillo</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Avda. de la Constitución 2222</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">México D.F.</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">05021</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Mexico</td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">3</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Antonio Moreno Taquería</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Antonio Moreno</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Mataderos 2312</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">México D.F.</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">05023</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Mexico</td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">4</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Around the Horn</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Thomas Hardy</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">120 Hanover Sq.</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">London</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">WA1 1DP</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">UK</td>
+                    </tr>
+                    <tr class="hover:bg-gray-100">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">5</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Berglunds snabbköp</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Christina Berglund</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Berguvsvägen 8</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Luleå</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">S-958 22</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Sweden</td>
+                    </tr>
+                  </tbody>
+                </table>
+               </div>
+
+
+
+
+                <button onclick="markComplete('module4')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            <!--</div>-->
+        </div>
+
+         <!-- Module 5 Content -->
+        <div id="module5" class="hidden-content">
+             <h1 class="text-3xl font-semibold mb-4 text-gray-800">The SQL SELECT Statement</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">SELECT</span> statement is used to select data from a database.
+            </p>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Return data from the Customers table:</p>
+
+                <!-- Code Block -->
+                <div class="code-block">
+                    SELECT CustomerName, City FROM Customers;
+                </div>
+            </div>
+            <button onclick="markComplete('module5')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 6 Content -->
+        <div id="module6" class="hidden-content">
+           <h1 class="text-3xl font-semibold mb-4 text-gray-800">The SQL SELECT DISTINCT Statement</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">SELECT DISTINCT</span> statement is used to return only distinct (different) values.
+            </p>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Select all the different countries from the "Customers" table:</p>
+
+                <!-- Code Block -->
+                <div class="code-block">
+                    SELECT DISTINCT Country FROM Customers;
+                </div>
+            </div>
+                <button onclick="markComplete('module6')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 7 Content -->
+        <div id="module7" class="hidden-content">
+             <h1 class="text-3xl font-semibold mb-4 text-gray-800">The SQL WHERE Clause</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">WHERE</span> clause is used to filter records.
+            </p>
+             <p class="mb-4 text-lg text-gray-600">
+                It is used to extract only those records that fulfill a specified condition
+            </p>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Select all customers from Mexico:</p>
+
+                <!-- Code Block -->
+                <div class="code-block">
+                    SELECT * FROM Customers
+                    WHERE Country='Mexico';
+                </div>
+            </div>
+                <button onclick="markComplete('module7')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 8 Content -->
+        <div id="module8" class="hidden-content">
+             <h1 class="text-3xl font-semibold mb-4 text-gray-800">The SQL ORDER BY</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">ORDER BY</span> keyword is used to sort the result-set in ascending or descending order.
+            </p>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Sort the products by price:</p>
+                <!-- Code Block -->
+                <div class="code-block">
+                   SELECT * FROM Products ORDER BY Price;
+
+                </div>
+            </div>
+                <button onclick="markComplete('module8')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 9 Content -->
+        <div id="module9" class="hidden-content">
+             <h1 class="text-3xl font-semibold mb-4 text-gray-800">The SQL AND Operator</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">WHERE</span> clause can contain one or many<span class="highlighted-text">AND</span>operators.
+            </p>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">AND</span> operator is used to filter records based on more than one condition, like if you want to return all customers from Spain that starts with the letter 'G':
+            </p>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Select all customers from Spain that starts with the letter 'G':</p>
+                <!-- Code Block -->
+                <div class="code-block">
+                  SELECT *
+                    FROM Customers
+                    WHERE Country = 'Spain' AND CustomerName LIKE 'G%';
+                </div>
+            </div>
+                <button onclick="markComplete('module9')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 10 Content -->
+        <div id="module10" class="hidden-content">
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">The SQL OR Operator</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">WHERE</span> clause can contain one or many<span class="highlighted-text">OR</span>operators.
+            </p>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">OR</span> operator is used to filter records based on more than one condition, like if you want to return all customers from Germany but also those from Spain:
+            </p>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Select all customers from Germany or Spain:</p>
+                <!-- Code Block -->
+                <div class="code-block">
+                  SELECT *
+                    FROM Customers
+                    WHERE Country = 'Germany' OR Country = 'Spain';
+                </div>
+            </div>
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Syntax</h1>
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <p class="mb-4 text-lg text-gray-600">SELECT column1, column2, ...
+                FROM table_name
+                WHERE condition1 OR condition2 OR condition3 ...;</p>
+            </div>
+                <button onclick="markComplete('module10')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            </div>
+
+         <!-- Module 11 Content -->
+        <div id="module11" class="hidden-content">
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">The SQL NOT Operator</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">NOT</span> operator is used in combination with other operators to give the opposite result, also called the negative result.
+            </p>
+            <p class="mb-4 text-lg text-gray-600">
+                In the select statement below we want to return all customers that are NOT from Spain:
+            </p>
+
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Example</h2>
+                </div>
+                <p class="mb-4 text-lg text-gray-600">Select only the customers that are NOT from Spain:</p>
+                <!-- Code Block -->
+                <div class="code-block">
+                  SELECT * FROM Customers
+                    WHERE NOT Country = 'Spain';
+                </div>
+            </div>
+             <p class="mb-4 text-lg text-gray-600">
+                In the example above, the NOT operator is used in combination with the = operator, but it can be used in combination with other comparison and/or logical operators. See examples below.
+                </p>
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Syntax</h1>
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                <p class="mb-4 text-lg text-gray-600">SELECT column1, column2, ...
+                    FROM table_name
+                    WHERE NOT condition;</p>
+            </div>
+                <button onclick="markComplete('module11')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+            </div>
+
+        <!-- Module 12 Content -->
+        <div id="module12" class="hidden-content">
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">SQL CREATE DATABASE Statement</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">CREATE DATABASE</span> statement is used to create a new SQL database.
+            </p>
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Syntax</h1>
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                 <!-- Code Block -->
+                <div class="code-block">
+                 CREATE DATABASE databasename;
+                </div>
+            </div>
+            <button onclick="markComplete('module12')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+
+         <!-- Module 13 Content -->
+        <div id="module13" class="hidden-content">
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">The SQL DROP DATABASE Statement</h1>
+            <p class="mb-4 text-lg text-gray-600">
+                The <span class="highlighted-text">DROP DATABASE</span> statement is used to drop an existing SQL database.
+            </p>
+            <h1 class="text-3xl font-semibold mb-4 text-gray-800">Syntax</h1>
+            <!-- Example Box -->
+            <div class="bg-gray-100 mt-6 p-6 rounded-lg border border-gray-300">
+                 <!-- Code Block -->
+                <div class="code-block">
+                 DROP DATABASE databasename;
+                </div>
+            </div>
+            <button onclick="markComplete('module12')" class="bg-indigo-500 text-white py-2 px-6 rounded mt-4 hover:bg-indigo-600">Mark as Complete</button>
+        </div>
+    </div>
+
+    <script src="/static/js/vendor/jquery-3.3.1.min.js"></script>
+    <!---
+    <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+    -->
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js"></script>
+
+    <!-- JavaScript for Tab Switching -->
+    <script>
+        function showContent(sectionId) {
+            var sections = document.querySelectorAll('.hidden-content');
+            sections.forEach(function(section) {
+                section.classList.remove('active-content');
+            });
+
+            var targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active-content');
+            }
+
+            var links = document.querySelectorAll('.sidebar a');
+            links.forEach(function(link) {
+                link.classList.remove('active-link');
+            });
+
+            var activeLink = document.getElementById('link-' + sectionId);
+            if (activeLink) {
+                activeLink.classList.add('active-link');
+            }
+        }
+    </script>
+
+    <script>
+    // Declare moduleIds globally so all functions can access it
+    let moduleIds = [];
+
+    // Progress tracking and completion
+    var completedModules = {{ completedModules|tojson }};
+
+
+
+    // Initialize modules and progress on page load
+    window.onload = function() {
+        // Select modules only within the content container to ensure consistency
+        const contentContainer = document.querySelector('.content');
+        const moduleElements = Array.from(contentContainer.querySelectorAll('.hidden-content'));
+
+        // Populate moduleIds with the IDs of each module
+        moduleIds = moduleElements.map(element => element.id);
+
+        // Debug: Log all module IDs detected
+        console.log("Modules found:", moduleIds);
+
+        // Update progress after moduleIds is populated
+        updateProgress();
+         if (completedModules.length > 0) {
+            var lastItem = completedModules[completedModules.length - 1];
+            console.log("Last item:", lastItem); // Output the last item
+            moveToNextModule(lastItem);
+         } else {
+            console.log("The list is empty.");
+         }
+    };
+
+
+    function markComplete(moduleId) {
+        // Mark the current module as complete if not already completed
+        if (!completedModules.includes(moduleId)) {
+            completedModules.push(moduleId);
+            localStorage.setItem('completedModules', JSON.stringify(completedModules));
+            updateProgress();
+
+            insert_into_database(moduleId)
+            //alert(moduleId + ' marked as complete!');
+
+            // Move to the next module
+            moveToNextModule(moduleId);
+        } else {
+            alert(moduleId + ' is already completed!');
+             moveToNextModule(moduleId);
+        }
+        console.log("OnClick markComplete","Completed modules:",completedModules, completedModules.length);
+    }
+
+    function moveToNextModule(currentModuleId) {
+        // Find the index of the current module in the dynamic module list
+        const currentIndex = moduleIds.indexOf(currentModuleId);
+
+        // Debugging: Log the current index and currentModuleId
+        console.log("Current module ID:", currentModuleId, "at index:", currentIndex);
+
+        // Determine the next module's ID and display it if it exists
+        const nextModuleId = moduleIds[currentIndex + 1];
+
+        // Debugging: Log the next module ID
+        console.log("Next module ID:", nextModuleId);
+
+        if (nextModuleId) {
+            showContent(nextModuleId);
+        } else {
+            alert("You've completed all modules!");
+        }
+    }
+
+    function updateProgress() {
+        // Ensure that moduleIds is populated before calculating totalModules
+        var totalModules = moduleIds.length;
+        if (totalModules === 0) {
+            console.warn("No modules found for progress calculation.");
+            return;
+        }
+
+        // Calculate progress
+        var progress = (completedModules.length / totalModules) * 100;
+        document.getElementById('progress-bar').style.width = progress + '%';
+        document.getElementById('progress-percentage').textContent = progress.toFixed(1) + '%';
+
+        // Debugging: Log progress calculation details
+        console.log("Completed modules:", completedModules.length, "of", totalModules);
+    }
+
+    function showContent(sectionId) {
+        var sections = document.querySelectorAll('.hidden-content');
+        sections.forEach(function(section) {
+            section.classList.remove('active-content');
+        });
+
+        var targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.classList.add('active-content');
+        }
+
+        var links = document.querySelectorAll('.sidebar a');
+        links.forEach(function(link) {
+            link.classList.remove('active-link');
+        });
+
+        var activeLink = document.getElementById('link-' + sectionId);
+        if (activeLink) {
+            activeLink.classList.add('active-link');
+        }
+    }
+</script>
+<script>
+   function toggleDropdown() {
+       const dropdownMenu = document.getElementById("dropdownMenu");
+       dropdownMenu.classList.toggle("hidden");
+   }
+
+   // Close dropdown when clicking outside
+   window.onclick = function(event) {
+       const dropdownMenu = document.getElementById("dropdownMenu");
+       if (!event.target.matches('img') && !event.target.matches('#dropdownMenu a')) {
+           dropdownMenu.classList.add("hidden");
+       }
+   };
+ </script>
+</body>
+</html>

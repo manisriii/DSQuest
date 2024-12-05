@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.admin-container {
+  text-align: center;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.admin-container h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-button {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-button:hover {
+  background-color: #45a049;
+}
+
+.admin-button:active {
+  background-color: #3e8e41;
+}
+
+@media (min-width: 600px) {
+  .admin-container {
+    width: 350px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Admin Panel</h1>
+    <div class="button-container">
+      <button class="admin-button" onclick="viewProblems()">View Problems</button>
+      <button class="admin-button" onclick="addProblems()">Add Problems</button>
+      <button class="admin-button" onclick="addSolution()">Add Solution</button>
+    </div>
+  </div>
+</body>
+<script>
+  function viewProblems() {
+    // Redirect to view problems page
+    window.location.href = '/problemQuestions';
+  }
+
+  function addProblems() {
+    // Redirect to add problems page
+    window.location.href = '/add_problems';
+  }
+
+  function addSolution() {
+    // Redirect to add solution page
+    window.location.href = 'add_solution.html';
+  }
+</script>
+</html>
