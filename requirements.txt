@@ -1,0 +1,15 @@
+Flask
+Flask-SQLAlchemy
+Werkzeug
+Flask-Cors
+flask-talisman
+python-dotenv>=0.19.2
+authlib>=1.0
+requests>=2.27.1
+pycryptodome==3.15.0
+pyotp
+qrcode
+pillow
+pandas
+typing
+Flask-Login
