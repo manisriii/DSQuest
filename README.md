@@ -62,7 +62,7 @@
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/DSQuest.git
+   git clone https://github.com/manisriii/DSQuest.git
    cd DSQuest
 
 2. Create a virtual environment and activate it:
